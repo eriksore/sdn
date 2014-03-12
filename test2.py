@@ -24,7 +24,7 @@ def federatedNet():
 	hosts = {}
 	for h in irange( 1, 4):
 		globals()['h'+str(h)] = net.addHost( 'h%s' % h, mac='00:00:00:00:00:0%s' % h, ip='10.0.0.%s/8' % h )
-	for h in irange( 5, 8):
+	for h in irange( 1, 4):
 		globals()['h'+str(h)] = net.addHost( 'h%s' % h, mac='00:00:00:00:00:0%s' % h, ip='11.0.0.%s/8' % h )
 	
 	linkoptscore = dict(bw=1000, delay='0ms', loss=0)

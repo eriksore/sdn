@@ -7,6 +7,7 @@ resp, content = h.request('http://192.168.231.246:8080/controller/nb/v2/statisti
 allFlowStats = json.loads(content)
 flowStats = allFlowStats['flowStatistics']
 
+
 for fs in flowStats:
     print "\nSwitch ID : " + fs['node']['id']
     print '{0:8} {1:8} {2:5} {3:15}'.format('Count', 'Action', 'Port', 'DestIP')

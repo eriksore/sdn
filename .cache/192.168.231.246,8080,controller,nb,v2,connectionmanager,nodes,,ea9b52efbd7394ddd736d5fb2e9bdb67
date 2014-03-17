@@ -1,0 +1,11 @@
+status: 200
+content-location: http://192.168.231.246:8080/controller/nb/v2/connectionmanager/nodes/
+set-cookie: JSESSIONIDSSO=3152A5584FE3DDCE30BC819DEABADEF3;
+ Path=/, JSESSIONID=D14B9184BE0B7C65AC80A26BF31BA26D; Path=/
+expires: Thu, 01 Jan 1970 01:00:00 CET
+server: Apache-Coyote/1.1
+cache-control: private
+date: Wed, 12 Mar 2014 17:40:40 GMT
+content-type: application/json
+
+{"node":[{"id":"00:00:00:00:00:00:00:02","type":"OF"},{"id":"00:00:00:00:00:00:00:03","type":"OF"},{"id":"00:00:00:00:00:00:00:01","type":"OF"},{"id":"00:00:00:00:00:00:00:04","type":"OF"},{"id":"00:00:00:00:00:00:00:06","type":"OF"},{"id":"00:00:00:00:00:00:00:05","type":"OF"}]}

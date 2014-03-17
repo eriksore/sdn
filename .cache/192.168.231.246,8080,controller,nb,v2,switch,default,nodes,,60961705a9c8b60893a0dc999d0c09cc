@@ -1,0 +1,61 @@
+status: 200
+content-length: 1261
+content-location: http://192.168.231.246:8080/controller/nb/v2/switch/default/nodes/
+set-cookie: JSESSIONID=F3DA2EB41F93C711E9DF98F8452EF0F4; Path=/
+expires: Thu, 01 Jan 1970 01:00:00 CET
+server: Apache-Coyote/1.1
+cache-control: private
+date: Sun, 16 Mar 2014 00:15:19 GMT
+content-type: text/html;charset=UTF-8
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <!-- Bootstrap CSS - 1 -->
+	<link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+	<!-- Login CSS - 2 -->
+	<link rel="stylesheet/less" type="text/css" href="/css/login.less">
+
+
+
+	<title>OpenDaylight - Login</title>
+	<!-- Bootstrap JS - 1 -->
+	<script src="/js/bootstrap.min.js"></script>
+	
+	<!-- LESS - 2 -->
+	<script type="text/javascript">
+		less = {
+			env: "production"
+		};
+	</script>
+	<script src="/js/less-1.3.3.min.js"></script>
+</head>
+<body>
+  <form action="j_security_check;jsessionid=F3DA2EB41F93C711E9DF98F8452EF0F4" id="form" method="post">
+
+  <div class="container">
+    <div class="content">
+       <div class="login-form">
+         <div id="logo"></div>
+           <fieldset>
+             <div class="control-group">
+               <input type="text" name="j_username" placeholder="Username">
+             </div>
+             <div class="control-group">
+               <input type="password" name="j_password" placeholder="Password">
+             </div>
+             <button class="btn btn-primary" type="submit" value="Log In" ><div class="icon-login"></div> Log In</button>
+           </fieldset>
+       </div>
+    </div>
+  </div> 
+  </form>
+</body>
+</html>

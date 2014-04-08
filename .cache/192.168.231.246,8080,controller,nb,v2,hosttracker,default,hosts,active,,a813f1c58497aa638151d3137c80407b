@@ -1,0 +1,11 @@
+status: 200
+content-location: http://192.168.231.246:8080/controller/nb/v2/hosttracker/default/hosts/active/
+set-cookie: JSESSIONIDSSO=166D1B3355139A93B32BC98E7E18E70B;
+ Path=/, JSESSIONID=255CD39A092210B68260C7C6BBB3610E; Path=/
+expires: Thu, 01 Jan 1970 01:00:00 CET
+server: Apache-Coyote/1.1
+cache-control: private
+date: Tue, 01 Apr 2014 18:42:07 GMT
+content-type: application/json
+
+{"hostConfig":[{"dataLayerAddress":"36:c8:c5:7d:3e:1a","nodeType":"MD_SAL","nodeId":"openflow:4","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:4:1","vlan":"0","staticHost":false,"networkAddress":"10.0.0.3"},{"dataLayerAddress":"e6:3c:5e:8f:f0:b5","nodeType":"MD_SAL","nodeId":"openflow:7","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:7:1","vlan":"0","staticHost":false,"networkAddress":"10.0.0.7"},{"dataLayerAddress":"9a:7b:44:d7:fc:4b","nodeType":"MD_SAL","nodeId":"openflow:4","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:4:2","vlan":"0","staticHost":false,"networkAddress":"10.0.0.4"},{"dataLayerAddress":"b6:a5:0b:fe:c5:55","nodeType":"MD_SAL","nodeId":"openflow:6","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:6:2","vlan":"0","staticHost":false,"networkAddress":"10.0.0.6"},{"dataLayerAddress":"ca:ed:b2:a4:3e:be","nodeType":"MD_SAL","nodeId":"openflow:7","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:7:2","vlan":"0","staticHost":false,"networkAddress":"10.0.0.8"},{"dataLayerAddress":"66:a1:ab:ea:74:3a","nodeType":"MD_SAL","nodeId":"openflow:3","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:3:1","vlan":"0","staticHost":false,"networkAddress":"10.0.0.1"},{"dataLayerAddress":"f2:41:b3:92:00:7a","nodeType":"MD_SAL","nodeId":"openflow:6","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:6:1","vlan":"0","staticHost":false,"networkAddress":"10.0.0.5"},{"dataLayerAddress":"2a:7c:d9:b9:e8:ba","nodeType":"MD_SAL","nodeId":"openflow:3","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:3:2","vlan":"0","staticHost":false,"networkAddress":"10.0.0.2"}]}

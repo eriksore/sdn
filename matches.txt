@@ -1,0 +1,54 @@
+
+###### Possible Matches ######
+- inport (<in-port>0</in-port>)
+- ethernet-match
+    * ethernet-type
+        - type
+    * ethernet-source
+        - address (<address>00:00:00:00:00:01</address>)
+    * ethernet-destination
+        - address
+- ipv4-destination (<ipv4-destination>10.0.1.1/24</ipv4-destination>)
+- ipv4-source
+- ipv6-destination
+- ipv6-source
+- ipv6-label
+    * ipv6-flabel
+- ipv6-ext-header
+    * ipv6-exthdr
+- ip-match
+    * ip-protocol (<ip-protocol>56</ip-protocol>)
+    * ip-dscp (<ip-dscp>15</ip-dscp>)
+    * ip-ecn (<ip-ecn>1</ip-ecn>)
+- icmpv4-match
+    * icmpv4-type
+    * icmpv4-code
+- icmpv6-match
+    * icmpv6-type
+    * icmpv6-code
+- tcp-source-port
+- tcp-destination-port
+- udp-source-port
+- udp-destination-port
+- arp-op
+- arp-source-transport-address
+- arp-target-transport-address
+- arp-source-hardware-address
+    * address
+- arp-taget-hardware-address
+    * address
+- vlan-match
+    * vlan-id
+        - vlan-id
+        - vlan-id-present (<vlan-id-present>true</vlan-id-present>)
+    * vlan-pcp
+- protocol-match-fields
+    * mpls-label
+    * mpls-tc
+    * mpls-bos
+- metadata
+    * metadata (<metadata>12345</metadata>)
+    * metadata-mask (<metadata-mask>//FF</metadata-mask>)
+- tunnel
+    * tunnel-id
+###########################

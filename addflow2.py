@@ -37,7 +37,7 @@ def build_flow_rule(flowName, node, dstIP, output):
     flowRule = {"node":{"type":"OF", "id":node}}
     flowRule.update({"installInHw":"False"})
     flowRule.update({"name":flowName})
-    flowRule.update({"ethertype":"0x800"})
+    flowRule.update({"etherType":"0x800"})
     flowRule.update({"actions":["OUTPUT="+output]})
     flowRule.update({"priority":"500"})
     flowRule.update({"nwDst":dstIP})
@@ -100,19 +100,20 @@ def add_sp_flows(shortest_path):
         outPutPort = find_ports(get_edges(), shortest_path[i+1], shortest_path[i])
         putUrl = build_flow_url(baseUrl, 'default',"OF", tailNode, flowName)
         resp, content = put_dict(h, putUrl, build_flow_rule(flowName, tailNode, srcIP, outPutPortShort))
-    print "Flows have been added!"
+    print "\nFlows have been added!"
     
     
-srcIP = raw_input('What is the source IP?> ')
-dstIP = raw_input('What is the destination IP?> ')
-hosts = get_active_hosts()
-print "\nThe host with IP " + srcIP + " is connected to switch: " + host_switch(hosts, srcIP)
-print "The host with IP " + dstIP + " is connected to switch: " + host_switch(hosts, dstIP)
-shortest_path = get_sp(get_edges(), get_nodes(), host_switch(hosts, srcIP), host_switch(hosts, dstIP))
-print "\nThe shortest path between these nodes are: " 
-print shortest_path
-add_sp_flows(shortest_path)
-
+#srcIP = raw_input('What is the source IP?> ')
+#dstIP = raw_input('What is the destination IP?> ')
+#hosts = get_active_hosts()
+#print "\nThe host with IP " + srcIP + " is connected to switch: " + host_switch(hosts, srcIP)
+#print "The host with IP " + dstIP + " is connected to switch: " + host_switch(hosts, dstIP)
+#shortest_path = get_sp(get_edges(), get_nodes(), host_switch(hosts, srcIP), host_switch(hosts, dstIP))
+#print "\nThe shortest path between these nodes are: " 
+#print shortest_path
+#add_sp_flows(shortest_path)
+nodes =  get_nodes()
+print json.dumps(nodes, indent = 2)
 
 
 

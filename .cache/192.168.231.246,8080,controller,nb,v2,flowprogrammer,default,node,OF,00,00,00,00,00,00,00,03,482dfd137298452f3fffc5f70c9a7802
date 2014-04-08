@@ -1,11 +1,11 @@
 status: 200
 content-location: http://192.168.231.246:8080/controller/nb/v2/flowprogrammer/default/node/OF/00:00:00:00:00:00:00:03
-set-cookie: JSESSIONIDSSO=FA95F0B3FE572B9D4897DDFC10244A23;
- Path=/, JSESSIONID=0A5978C3BFF2C442C51A5EAEE7BBC438; Path=/
+set-cookie: JSESSIONIDSSO=F65E0FA6235C787D92428D6AE924253D;
+ Path=/, JSESSIONID=51232D2D9443D68339D6E5B1F88CF535; Path=/
 expires: Thu, 01 Jan 1970 01:00:00 CET
 server: Apache-Coyote/1.1
 cache-control: private
-date: Sun, 16 Mar 2014 00:11:25 GMT
+date: Thu, 20 Mar 2014 17:39:49 GMT
 content-type: application/json
 
 {"flowConfig":[]}

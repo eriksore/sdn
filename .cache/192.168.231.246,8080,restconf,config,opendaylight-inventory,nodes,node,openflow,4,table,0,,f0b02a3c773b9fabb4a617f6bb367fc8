@@ -1,0 +1,282 @@
+status: 200
+content-location: http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:4/table/0/
+expires: Thu, 01 Jan 1970 01:00:00 CET
+server: Apache-Coyote/1.1
+cache-control: private
+date: Tue, 01 Apr 2014 18:29:47 GMT
+content-type: application/yang.data+json
+
+{
+    "flow-node-inventory:table": [
+        {
+            "flow-node-inventory:flow": [
+                {
+                    "flow-node-inventory:cookie": 0,
+                    "flow-node-inventory:hard-timeout": 0,
+                    "flow-node-inventory:id": "e097008c-0669-4bc2-97d6-c2dfee981b8e",
+                    "flow-node-inventory:idle-timeout": 0,
+                    "flow-node-inventory:instructions": {
+                        "flow-node-inventory:instruction": [
+                            {
+                                "flow-node-inventory:apply-actions": {
+                                    "flow-node-inventory:action": [
+                                        {
+                                            "flow-node-inventory:set-dl-dst-action": {
+                                                "flow-node-inventory:address": "9a:7b:44:d7:fc:4b"
+                                            }
+                                        },
+                                        {
+                                            "flow-node-inventory:output-action": {
+                                                "flow-node-inventory:output-node-connector": "openflow:4:2"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "flow-node-inventory:order": 0
+                            }
+                        ]
+                    },
+                    "flow-node-inventory:match": {
+                        "flow-node-inventory:ethernet-match": {
+                            "flow-node-inventory:ethernet-type": {
+                                "flow-node-inventory:type": 2048
+                            }
+                        },
+                        "flow-node-inventory:ipv4-destination": "10.0.0.4"
+                    },
+                    "flow-node-inventory:priority": 1,
+                    "flow-node-inventory:table_id": 0
+                },
+                {
+                    "flow-node-inventory:cookie": 0,
+                    "flow-node-inventory:hard-timeout": 0,
+                    "flow-node-inventory:id": "98a71103-d207-41e7-a59e-23a5883ea2df",
+                    "flow-node-inventory:idle-timeout": 0,
+                    "flow-node-inventory:instructions": {
+                        "flow-node-inventory:instruction": [
+                            {
+                                "flow-node-inventory:apply-actions": {
+                                    "flow-node-inventory:action": [
+                                        {
+                                            "flow-node-inventory:set-dl-dst-action": {
+                                                "flow-node-inventory:address": "36:c8:c5:7d:3e:1a"
+                                            }
+                                        },
+                                        {
+                                            "flow-node-inventory:output-action": {
+                                                "flow-node-inventory:output-node-connector": "openflow:4:1"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "flow-node-inventory:order": 0
+                            }
+                        ]
+                    },
+                    "flow-node-inventory:match": {
+                        "flow-node-inventory:ethernet-match": {
+                            "flow-node-inventory:ethernet-type": {
+                                "flow-node-inventory:type": 2048
+                            }
+                        },
+                        "flow-node-inventory:ipv4-destination": "10.0.0.3"
+                    },
+                    "flow-node-inventory:priority": 1,
+                    "flow-node-inventory:table_id": 0
+                },
+                {
+                    "flow-node-inventory:cookie": 0,
+                    "flow-node-inventory:hard-timeout": 0,
+                    "flow-node-inventory:id": "23b67e15-94fb-43e6-a87a-8b3c4d5107e5",
+                    "flow-node-inventory:idle-timeout": 0,
+                    "flow-node-inventory:instructions": {
+                        "flow-node-inventory:instruction": [
+                            {
+                                "flow-node-inventory:apply-actions": {
+                                    "flow-node-inventory:action": [
+                                        {
+                                            "flow-node-inventory:output-action": {
+                                                "flow-node-inventory:output-node-connector": "openflow:4:3"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "flow-node-inventory:order": 0
+                            }
+                        ]
+                    },
+                    "flow-node-inventory:match": {
+                        "flow-node-inventory:ethernet-match": {
+                            "flow-node-inventory:ethernet-type": {
+                                "flow-node-inventory:type": 2048
+                            }
+                        },
+                        "flow-node-inventory:ipv4-destination": "10.0.0.8"
+                    },
+                    "flow-node-inventory:priority": 1,
+                    "flow-node-inventory:table_id": 0
+                },
+                {
+                    "flow-node-inventory:cookie": 0,
+                    "flow-node-inventory:hard-timeout": 0,
+                    "flow-node-inventory:id": "07d775b0-f8bb-4fcf-b544-8ef77393a25c",
+                    "flow-node-inventory:idle-timeout": 0,
+                    "flow-node-inventory:instructions": {
+                        "flow-node-inventory:instruction": [
+                            {
+                                "flow-node-inventory:apply-actions": {
+                                    "flow-node-inventory:action": [
+                                        {
+                                            "flow-node-inventory:output-action": {
+                                                "flow-node-inventory:output-node-connector": "openflow:4:3"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "flow-node-inventory:order": 0
+                            }
+                        ]
+                    },
+                    "flow-node-inventory:match": {
+                        "flow-node-inventory:ethernet-match": {
+                            "flow-node-inventory:ethernet-type": {
+                                "flow-node-inventory:type": 2048
+                            }
+                        },
+                        "flow-node-inventory:ipv4-destination": "10.0.0.1"
+                    },
+                    "flow-node-inventory:priority": 1,
+                    "flow-node-inventory:table_id": 0
+                },
+                {
+                    "flow-node-inventory:cookie": 0,
+                    "flow-node-inventory:hard-timeout": 0,
+                    "flow-node-inventory:id": "a59cb0ce-504d-4c1d-852d-4dde962ef29d",
+                    "flow-node-inventory:idle-timeout": 0,
+                    "flow-node-inventory:instructions": {
+                        "flow-node-inventory:instruction": [
+                            {
+                                "flow-node-inventory:apply-actions": {
+                                    "flow-node-inventory:action": [
+                                        {
+                                            "flow-node-inventory:output-action": {
+                                                "flow-node-inventory:output-node-connector": "openflow:4:3"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "flow-node-inventory:order": 0
+                            }
+                        ]
+                    },
+                    "flow-node-inventory:match": {
+                        "flow-node-inventory:ethernet-match": {
+                            "flow-node-inventory:ethernet-type": {
+                                "flow-node-inventory:type": 2048
+                            }
+                        },
+                        "flow-node-inventory:ipv4-destination": "10.0.0.6"
+                    },
+                    "flow-node-inventory:priority": 1,
+                    "flow-node-inventory:table_id": 0
+                },
+                {
+                    "flow-node-inventory:cookie": 0,
+                    "flow-node-inventory:hard-timeout": 0,
+                    "flow-node-inventory:id": "fcdfaf96-e129-475b-a563-607b15cbcc86",
+                    "flow-node-inventory:idle-timeout": 0,
+                    "flow-node-inventory:instructions": {
+                        "flow-node-inventory:instruction": [
+                            {
+                                "flow-node-inventory:apply-actions": {
+                                    "flow-node-inventory:action": [
+                                        {
+                                            "flow-node-inventory:output-action": {
+                                                "flow-node-inventory:output-node-connector": "openflow:4:3"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "flow-node-inventory:order": 0
+                            }
+                        ]
+                    },
+                    "flow-node-inventory:match": {
+                        "flow-node-inventory:ethernet-match": {
+                            "flow-node-inventory:ethernet-type": {
+                                "flow-node-inventory:type": 2048
+                            }
+                        },
+                        "flow-node-inventory:ipv4-destination": "10.0.0.2"
+                    },
+                    "flow-node-inventory:priority": 1,
+                    "flow-node-inventory:table_id": 0
+                },
+                {
+                    "flow-node-inventory:cookie": 0,
+                    "flow-node-inventory:hard-timeout": 0,
+                    "flow-node-inventory:id": "5bc5e75c-06a4-4589-b0be-360c4f161ce1",
+                    "flow-node-inventory:idle-timeout": 0,
+                    "flow-node-inventory:instructions": {
+                        "flow-node-inventory:instruction": [
+                            {
+                                "flow-node-inventory:apply-actions": {
+                                    "flow-node-inventory:action": [
+                                        {
+                                            "flow-node-inventory:output-action": {
+                                                "flow-node-inventory:output-node-connector": "openflow:4:3"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "flow-node-inventory:order": 0
+                            }
+                        ]
+                    },
+                    "flow-node-inventory:match": {
+                        "flow-node-inventory:ethernet-match": {
+                            "flow-node-inventory:ethernet-type": {
+                                "flow-node-inventory:type": 2048
+                            }
+                        },
+                        "flow-node-inventory:ipv4-destination": "10.0.0.5"
+                    },
+                    "flow-node-inventory:priority": 1,
+                    "flow-node-inventory:table_id": 0
+                },
+                {
+                    "flow-node-inventory:cookie": 0,
+                    "flow-node-inventory:hard-timeout": 0,
+                    "flow-node-inventory:id": "645b9535-34c5-4f6f-b71a-267bb989201c",
+                    "flow-node-inventory:idle-timeout": 0,
+                    "flow-node-inventory:instructions": {
+                        "flow-node-inventory:instruction": [
+                            {
+                                "flow-node-inventory:apply-actions": {
+                                    "flow-node-inventory:action": [
+                                        {
+                                            "flow-node-inventory:output-action": {
+                                                "flow-node-inventory:output-node-connector": "openflow:4:3"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "flow-node-inventory:order": 0
+                            }
+                        ]
+                    },
+                    "flow-node-inventory:match": {
+                        "flow-node-inventory:ethernet-match": {
+                            "flow-node-inventory:ethernet-type": {
+                                "flow-node-inventory:type": 2048
+                            }
+                        },
+                        "flow-node-inventory:ipv4-destination": "10.0.0.7"
+                    },
+                    "flow-node-inventory:priority": 1,
+                    "flow-node-inventory:table_id": 0
+                }
+            ]
+        }
+    ]
+}

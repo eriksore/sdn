@@ -21,7 +21,7 @@ h = httplib2.Http(".cache")
 h.add_credentials('admin', 'admin')
 
 #Functions for  
-def get(h, url):
+def get(url):
     resp, xml = h.request(
         url,
         method = "GET",
@@ -36,9 +36,16 @@ def put(h, url, body):
         headers = {'Content-Type' : 'application/xml', 'Accept':'application/xml'}
         )
     return resp, content
-def del(h, url, node, table, flow):
+def delete(url):
     resp, content = h.request(
         url,
         method = "DELETE"
         )
+    return resp
+    
+def get_active_hosts():
+    resp, content = h.request(sdSalUrl + 'hosttracker/default/hosts/active/', "GET")
+    hostConfig = json.loads(content)
+    hosts = hostConfig['hostConfig']
+    return hosts
     

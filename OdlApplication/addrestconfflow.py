@@ -53,8 +53,6 @@ findFlow = confUrl +'/opendaylight-inventory:nodes/node/openflow:1/table/0/'
 h = httplib2.Http(".cache")
 h.add_credentials('admin', 'admin')
 
-
-
 def get_nodes(xml):
     pre = json.loads(xml)
     nodes = pre['nodes']['node']
@@ -84,18 +82,11 @@ def get_sp(topology, src, dst):
     sp = nx.shortest_path(graph, src, dst)
     return sp
 
-def get_active_hosts():
-    resp, content = h.request(sdSalUrl + 'hosttracker/default/hosts/active/', "GET")
-    hostConfig = json.loads(content)
-    hosts = hostConfig['hostConfig']
-    return hosts
-
 def host_switch(hosts, IP):
     for host in hosts:
         if host['networkAddress'] == IP:
             switch = host['nodeId']
     return switch
-    
 
 def find_ports(xml, headNode, tailNode):
     links = xml['topology'][0]['link']
@@ -126,24 +117,20 @@ def get_flows(xml):
     flows = json.loads(xml)
     print flows['flow-node-inventory:table'][0]['flow-node-inventory:flow']
     
-  
-    
 def build_flow_rule_sp(dstIp):
     flowRule = {} 
     return None
-        
-
 
 srcIP = '10.0.0.1' #raw_input('What is the source IP?> ')
 dstIP = '10.0.0.8' #raw_input('What is the destination IP?> ')
-hosts = get_active_hosts()
+hosts = restconf.get_active_hosts()
 #print "\nThe host with IP " + srcIP + " is connected to switch: " + host_switch(hosts, srcIP)
 #print "The host with IP " + dstIP + " is connected to switch: " + host_switch(hosts, dstIP)
-shortest_path = get_sp(get_topology(restconf.get(h, findTopology)), host_switch(hosts, srcIP), host_switch(hosts, dstIP))
+shortest_path = get_sp(get_topology(restconf.get(findTopology)), host_switch(hosts, srcIP), host_switch(hosts, dstIP))
 #print "\nThe shortest path between these nodes are: " 
 #print shortest_path
 #add_sp_flows(shortest_path)
-content = restconf.get(h, 'http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:1/table/0/')
+content = restconf.get('http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:1/table/0/')
 #print content
 #flows = json.loads(content)
 #print json.dumps(flows, indent=2)
@@ -223,13 +210,17 @@ match = []
 #print(etree.tostring(flow_rule_base("FooBarXXX","1","127","666","666"), pretty_print=True, xml_declaration=True, encoding="utf-8", standalone=False))
 #body = etree.tostring(flow_rule_base("FooBarXXX","1","127","666","666"), xml_declaration=True, encoding="utf-8", standalone=False)
 #print restconf.put(h, 'http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:2/table/1/flow/127', etree.tostring(flow_rule_base("FooBarXXX","1","127","666","666"), xml_declaration=True, encoding="utf-8", standalone=False))
-answer = frontend.mainmenu()
+answer = frontend.main_menu()
 if answer == 'addFlow':
-    print 'test'
+    addFlowAnswers = frontend.add_flow_gui()
+    print addFlowAnswers
 elif answer == 'lookFlows':
     print json.dumps(frontend.view_flows(), indent=2)
+    print '\n'
+    frontend.main_menu()
 elif answer == 'delFlow':
     frontend.del_flow()
+    frontend.main_menu()
 else:
     print 'none'
 

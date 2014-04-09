@@ -1,17 +1,23 @@
 import restconf
+import json
+#Base URLs for Config and operational
+baseUrl = 'http://192.168.231.246:8080'
+confUrl = baseUrl + '/restconf/config/'
+operUrl = baseUrl + '/restconf/operational/'
 
 def view_flows():
     print 'On which switch do you want to look at the flows?'
     print 'Type in the number of the switch:'
-    hosts = get_active_hosts()
+    hosts = restconf.get_active_hosts()
     for host in hosts:
         print host['nodeId']
     answer = raw_input('> ')
     print 'Type in the number of the table you would like to look at:'
     answer2 = raw_input('> ')
-    content = restconf.get(h, 'http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:'+answer+'/table/'+answer2+'/')
+    content = restconf.get('http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:'+answer+'/table/'+answer2+'/')
     flows = json.loads(content)
     return flows['flow-node-inventory:table'][0]['flow-node-inventory:flow']
+    
 def del_flow():  
     print 'On which node do you want to delete a flow?'
     node = raw_input('> ')
@@ -21,13 +27,14 @@ def del_flow():
     flowId = raw_input('> ')
     print 'Do you really want to delete flow '+flowId+' in table '+table+' on node '+node+' ? (y/n)'
     answer = raw_input('> ')
-    if answer == 'y:
-        mainmenu()
+    if answer == 'y':
+        url = confUrl+'opendaylight-inventory:nodes/node/openflow:'+node+'/table/'+table+'/flow/'+flowId
+        print restconf.delete(url)
     elif answer == 'n':
-        mainmenu()
+        main_menu()
     else:
         print 'You answered gibberish! Try again'
-        mainmenu()
+        main_menu()
     
 
 def show_act_mat():
@@ -56,7 +63,7 @@ def show_act_mat():
         show_act_mat()
     return None
 
-def mainmenu():
+def main_menu():
     print "Welcome, what would you like to do? Type in number:"
     print "1. Add Flow"
     print "2. Look at flows"
@@ -72,6 +79,19 @@ def mainmenu():
         return 'delFlow'
     else:
         print 'You answered gibberish! Try again'
-        mainmenu()
+        main_menu()
     return None
+
+def add_flow_gui():
+    print 'You chose to add a flow. Please answer these parameters'
+    print 'First the RESTConf specific parameters. E.g: /opendaylight-inventory:nodes/node/openflow:1/table/0/flow/1'
+    node = raw_input('Node? > ')
+    table = raw_input('Table? > ')
+    flowId = raw_input('Flow number? > ')
+    print 'Then the flow specifics:'
+    flowName = rawinput('FlowName? > ')
+    return node, table, flowId, flowName
+    
+    
+    
 

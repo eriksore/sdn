@@ -5,10 +5,11 @@ import networkx as nx
 from networkx.readwrite import json_graph
 import httplib2
 from xml.dom import minidom
+from lxml import etree
 #Own libraries
 import restconf
 import frontend
-
+"""
 try:
   from lxml import etree
   print("running with lxml.etree \n")
@@ -34,7 +35,7 @@ except ImportError:
           print("running with ElementTree \n")
         except ImportError:
           print("Failed to import ElementTree from any known place  \n")
-
+"""
 #Base URLs for Config and operational
 baseUrl = 'http://192.168.231.246:8080'
 confUrl = baseUrl + '/restconf/config/' #Contains data inserted via controller
@@ -202,18 +203,22 @@ def add_flow_action(flow, actions):
     return flow
 
 
-
-action = []
-match = []
-
-
 #print(etree.tostring(flow_rule_base("FooBarXXX","1","127","666","666"), pretty_print=True, xml_declaration=True, encoding="utf-8", standalone=False))
 #body = etree.tostring(flow_rule_base("FooBarXXX","1","127","666","666"), xml_declaration=True, encoding="utf-8", standalone=False)
 #print restconf.put(h, 'http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:2/table/1/flow/127', etree.tostring(flow_rule_base("FooBarXXX","1","127","666","666"), xml_declaration=True, encoding="utf-8", standalone=False))
+action = []
+match = []
 answer = frontend.main_menu()
 if answer == 'addFlow':
-    addFlowAnswers = frontend.add_flow_gui()
-    print addFlowAnswers
+    answer = frontend.show_act_mat()
+    if answer == 'addFlow':
+        _node, _tableId, _flowId, _flowName, _hardTimeOut, _idleTimeOut = frontend.add_flow_gui()
+        newFlow = flow_rule_base(_flowName, _tableId, _flowId, _hardTimeOut, _idleTimeOut)
+        newFlow = frontend.add_actions(newFlow)
+        newFlow = frontend.add_matches(newFlow)
+        frontend.main_menu()
+    else:
+        frontend.main_menu()
 elif answer == 'lookFlows':
     print json.dumps(frontend.view_flows(), indent=2)
     print '\n'
@@ -222,7 +227,7 @@ elif answer == 'delFlow':
     frontend.del_flow()
     frontend.main_menu()
 else:
-    print 'none'
+    frontend.main_menu()
 
         
         

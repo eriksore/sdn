@@ -28,7 +28,7 @@ def get(url):
         headers = {'Content-Type' : 'application/xml'}
         )
     return xml
-def put(h, url, body):
+def put(url, body):
     resp, content = h.request(
         url, 
         method = "PUT",

@@ -21,6 +21,10 @@ def view_flows():
     content = restconf.get('http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:'+answer+'/table/'+answer2+'/')
     flows = json.loads(content)
     return flows['flow-node-inventory:table'][0]['flow-node-inventory:flow']
+
+def yes_no():
+    answer = raw_input(' >')
+    return answer
     
 def del_flow():  
     print 'On which node do you want to delete a flow?'
@@ -35,10 +39,15 @@ def del_flow():
         url = confUrl+'opendaylight-inventory:nodes/node/openflow:'+node+'/table/'+table+'/flow/'+flowId
         print restconf.delete(url)
     elif answer == 'n':
-        main_menu()
+        del_flow()
     else:
         print 'You answered gibberish! Try again'
-        main_menu()
+        del_flow()
+
+def get_ip_spf():
+    srcHost = raw_input('Type IP of Source host > ')
+    destHost = raw_input('Type IP of destination host >')
+    return srcHost, destHost
     
 
 def show_act_mat():
@@ -46,7 +55,8 @@ def show_act_mat():
     print '1. Show actions'
     print '2. Show instructions'
     print '3. Show both'
-    print '4. Add flow straight away'
+    print '4. Add manual flow'
+    print '5. Add SPF flow'
     answer = raw_input('> ')
     if answer == '1':
         print actionsTxt.read()
@@ -60,62 +70,137 @@ def show_act_mat():
         show_act_mat()
     elif answer == '4':
         return 'addFlow'
+    elif answer == '5':
+        return 'spfFlow'
     else:
         print 'You answered gibberish! Try again'
         show_act_mat()
     return None
 
-def add_flow_gui():
+def add_flow_gui(bool):
     print 'You chose to add a flow. Please answer these parameters'
-    print 'First the RESTConf specific parameters. E.g: /opendaylight-inventory:nodes/node/openflow:1/table/0/flow/1'
-    node = raw_input('Node? > ')
-    table = raw_input('Table? > ')
-    flowId = raw_input('Flow number? > ')
-    print 'Then the flow specifics:'
-    flowName = raw_input('FlowName? > ')
-    hardTimeOut = raw_input('Hard Time Out? > ') 
-    idleTimeOut = raw_input('Idle Time Out? > ')
-    return node, table, flowId, flowName, hardTimeOut, idleTimeOut
-
+    
+    if bool == False:
+        print 'First the RESTConf specific parameters. E.g: /opendaylight-inventory:nodes/node/openflow:1/table/0/flow/1'
+        node = raw_input('Node? > ')
+        table = raw_input('Table? > ')
+        flowId = raw_input('Flow number? > ')
+        print 'Then the flow specifics:'
+        flowName = raw_input('FlowName? > ')
+        hardTimeOut = raw_input('Hard Time Out? > ') 
+        idleTimeOut = raw_input('Idle Time Out? > ')
+        return node, table, flowId, flowName, hardTimeOut, idleTimeOut
+    else:
+        print 'Answer these flow specifics:'
+        hardTimeOut = raw_input('Hard Time Out? > ') 
+        idleTimeOut = raw_input('Idle Time Out? > ')
+        return hardTimeOut, idleTimeOut   
+   
 def add_actions(xml):
     print 'You need to add some actions to your flow'
     i = int(input('How many actions do you need to add? > '))
-    actions = []
     print 'Write in your actions. Remember that they are: '
     print actionsTxt.read()
     while (i > 0):
         j = str(i)
         act = raw_input('Action '+j+' > ')
         if act == 'output-action':
-            print 'You need to add some subelements to that one:'
-            print 'physical port #, ANY, LOCAL, TABLE, INPORT, NORMAL, FLOOD, ALL, CONTROLLER'
-            output_node_connector = raw_input('> ')
-            print 'And max length:'
-            max_length = raw_input('> ')
+            print '    You need to add some subelements to that one:'
+            print '    physical port #, ANY, LOCAL, TABLE, INPORT, NORMAL, FLOOD, ALL, CONTROLLER'
+            output_node_connector = raw_input('    > ')
+            print '    And max length:'
+            max_length = raw_input('    > ')
             action = xml.xpath('//action')[0]
-            etree.SubElement(action, act)
-            act = xml.xpath('//output-node-connector')[0]
-            onc = etree.SubElement(act, 'output-node-connector')
+            _act = etree.SubElement(action, act)
+            onc = etree.SubElement(_act, 'output-node-connector')
             onc.text = output_node_connector
-            ml = etree.SubElement(act, 'max-length')
+            ml = etree.SubElement(_act, 'max-length')
             ml.text = max_length
         else:
             action = xml.xpath('//action')[0]
             etree.SubElement(action, act)
         i = i - 1
-    return actions
+    return xml
     
 def add_matches(xml):
+    mat = xml.xpath('//match')[0]
     print 'You need to add some matches to your flow'
     i = int(input('How many matches do you need to add? > '))
-    matches = []
     print 'Write in your matches. Remember that they are: '
     print matchesTxt.read()
     while (i > 0):
         j = str(i)
-        matches.append(raw_input('Match '+j+' > '))
+        match = raw_input('Match '+j+' > ')
+        if match == 'ethernet-match':
+            print '    The default Ethernet type is 2048. Do you need to change this? (y/n)'
+            answer = raw_input('    >')
+            if answer == 'y':
+                e_type = xml-xpath('//ethernet-type')[0]
+            else:
+                pass
+            print '    You need to add some subelements to that one:'
+            print '    Source address? (y/n)?'
+            ethernet_match = xml.xpath('//ethernet-match')[0]
+            answer = raw_input('    >')
+            if answer == 'y':
+                es = etree.SubElement(ethernet_match, 'ethernet-source')
+                es_address = etree.SubElement(es, 'address')
+                address = raw_input('    Address >')
+                es_address.text = address   
+            else:
+                pass
+            print '    Destination address? (y/n)'
+            answer == raw_input('    >')
+            if answer == 'y':
+                ed = etree.SubElement(ethernet_match, 'ethernet-destination')
+                ed_address = etree.SubElement(ed, 'address')
+                address = raw_input('    Address >')
+                ed_address.text = address
+            else:
+                pass
+        elif match == 'ipv4-destination':
+            answer = raw_input('    Address >')
+            ipv4d = etree.SubElement(mat, match)
+            ipv4d.text = answer
+        elif match == 'ipv4-source':
+            answer = raw_input('    Address >')
+            ipv4s = etree.SubElement(mat, match)
+            ipv4s.text = answer
+        elif match == 'tcp-source-port':
+            answer = raw_input('    Address >')
+            tcpsp = etree.SubElement(mat, match)
+            tcpsp.text = answer
+        elif match == 'tcp-destination-port':
+            answer = raw_input('    Address >')
+            tcpdp = etree.SubElement(mat, match)
+            tcpdp.text = answer
+        elif match == 'udp-source-port':
+            answer = raw_input('    Address >')
+            udpsp = etree.SubElement(mat, match)
+            udpsp.text = answer
+        elif match == 'udp-destination-port':
+            answer = raw_input('    Address >')
+            udpdp = etree.SubElement(mat, match)
+            udpdp.text = answer
+        elif match == 'vlan-match':
+            answer = raw_input('    VLAN ID >')
+            vlanm = etree.SubElement(mat, match)
+            vlanid = etree.SubElement(match, 'vlan-id')
+            vlanid_ = etree.SubElement(vlanid, 'vlan-id')
+            vlanid_.text = answer
+            vlanidpresent = etree.SubElement(_vlanid, 'true')
+            answer = raw_input('    VLAN PCP >')
+            vlanpcp = etree.SubElement(match, 'vlan-pcp')
+            vlanpcp.text = answer
+        elif match == 'tunnel':
+            answer = raw_input('    Tunnel ID >')
+            tunnel = etree.SubElement(mat, match)
+            tunnelid = etree.SubElement(match, 'tunnel-id')
+            tunnelid.text = answer
+        else:
+            pass
         i = i -1
-    return matches
+    return xml
 def main_menu():
     print "Welcome, what would you like to do? Type in number:"
     print "1. Add Flow"
@@ -133,7 +218,7 @@ def main_menu():
     else:
         print 'You answered gibberish! Try again'
         main_menu()
-    return None
+    #return None
 
 
     

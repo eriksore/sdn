@@ -9,33 +9,7 @@ from lxml import etree
 #Own libraries
 import restconf
 import frontend
-"""
-try:
-  from lxml import etree
-  print("running with lxml.etree \n")
-except ImportError:
-  try:
-    # Python 2.5
-    import xml.etree.cElementTree as etree
-    print("running with cElementTree on Python 2.5+ \n")
-  except ImportError:
-    try:
-      # Python 2.5
-      import xml.etree.ElementTree as etree
-      print("running with ElementTree on Python 2.5+ \n")
-    except ImportError:
-      try:
-        # normal cElementTree install
-        import cElementTree as etree
-        print("running with cElementTree \n")
-      except ImportError:
-        try:
-          # normal ElementTree install
-          import elementtree.ElementTree as etree
-          print("running with ElementTree \n")
-        except ImportError:
-          print("Failed to import ElementTree from any known place  \n")
-"""
+
 #Base URLs for Config and operational
 baseUrl = 'http://192.168.231.246:8080'
 confUrl = baseUrl + '/restconf/config/' #Contains data inserted via controller
@@ -53,6 +27,9 @@ findFlow = confUrl +'/opendaylight-inventory:nodes/node/openflow:1/table/0/'
 
 h = httplib2.Http(".cache")
 h.add_credentials('admin', 'admin')
+
+flowIdCounter = int(100)
+hosts = restconf.get_active_hosts()
 
 def get_nodes(xml):
     pre = json.loads(xml)
@@ -87,7 +64,7 @@ def host_switch(hosts, IP):
     for host in hosts:
         if host['networkAddress'] == IP:
             switch = host['nodeId']
-    return switch
+    return switch#If an error is thrown here, you have to do a 'pingall' on mininet. 
 
 def find_ports(xml, headNode, tailNode):
     links = xml['topology'][0]['link']
@@ -97,51 +74,43 @@ def find_ports(xml, headNode, tailNode):
             return portId
     return None
     
-def add_sp_flows(shortest_path):
+def add_sp_flows(shortest_path, srcIP, dstIP):
+    flowId = flowIdCounter
+    hardTimeOut, idleTimeOut = frontend.add_flow_gui(True)
     for i in range(len(shortest_path)-1):
         headNode = shortest_path[i]
         tailNode = shortest_path[i+1]
-        
+        flowId = flowId + 1
         #Forward Flow
         flowName = headNode + 'to' + tailNode + 'IPto' + dstIP
-        outPutPort = find_ports(get_topology(restconf.get(h, findTopology)), shortest_path[i], shortest_path[i+1])
-        print flowName
-        print outPutPort
-        
+        outPutPort = find_ports(get_topology(restconf.get(findTopology)), shortest_path[i], shortest_path[i+1])
+        #Because of a bug in ODL when updating flows we have to delete
+        #any flows with the same flow id:
+        forwardURL = confUrl+'opendaylight-inventory:nodes/node/'+shortest_path[i]+'/table/0/flow/'+str(flowId)
+        restconf.delete(forwardURL)
+        port = find_ports(get_topology(restconf.get(findTopology)), headNode, tailNode)
+        flow = flow_rule_base(flowName, '0', str(flowId), hardTimeOut, idleTimeOut)
+        flow = add_flow_action_sp(flow, outPutPort)
+        flow = add_flow_match_sp(flow, dstIP)
+        forwardXMLstring = etree.tostring(flow,pretty_print=True,xml_declaration=True, encoding="utf-8", standalone=False )
+        restconf.put(forwardURL, forwardXMLstring)
+        #Uncomment#print etree.tostring(flow,pretty_print=True,xml_declaration=True, encoding="utf-8", standalone=False )
         #Backward Flow
         flowName = tailNode + 'to' + headNode + 'IPto' + srcIP
-        outPutPort = find_ports(get_topology(restconf.get(h, findTopology)), shortest_path[i+1], shortest_path[i])
-        print flowName
-        print outPutPort
+        outPutPort = find_ports(get_topology(restconf.get(findTopology)), shortest_path[i+1], shortest_path[i])
+        backwardURL = confUrl+'opendaylight-inventory:nodes/node/'+shortest_path[i+1]+'/table/0/flow/'+str(flowId)
+        restconf.delete(backwardURL)
+        port = find_ports(get_topology(restconf.get(findTopology)), tailNode, headNode)
+        flow = flow_rule_base(flowName, '0', str(flowId), hardTimeOut, idleTimeOut)
+        flow = add_flow_action_sp(flow, outPutPort)
+        flow = add_flow_match_sp(flow, srcIP)
+        backwardXMLstring =  etree.tostring(flow,pretty_print=True,xml_declaration=True, encoding="utf-8", standalone=False )
+        restconf.put(backwardURL, backwardXMLstring)
+        #Uncomment#print etree.tostring(flow,pretty_print=True,xml_declaration=True, encoding="utf-8", standalone=False )
         
 def get_flows(xml):
     flows = json.loads(xml)
     print flows['flow-node-inventory:table'][0]['flow-node-inventory:flow']
-    
-def build_flow_rule_sp(dstIp):
-    flowRule = {} 
-    return None
-
-srcIP = '10.0.0.1' #raw_input('What is the source IP?> ')
-dstIP = '10.0.0.8' #raw_input('What is the destination IP?> ')
-hosts = restconf.get_active_hosts()
-#print "\nThe host with IP " + srcIP + " is connected to switch: " + host_switch(hosts, srcIP)
-#print "The host with IP " + dstIP + " is connected to switch: " + host_switch(hosts, dstIP)
-shortest_path = get_sp(get_topology(restconf.get(findTopology)), host_switch(hosts, srcIP), host_switch(hosts, dstIP))
-#print "\nThe shortest path between these nodes are: " 
-#print shortest_path
-#add_sp_flows(shortest_path)
-content = restconf.get('http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:1/table/0/')
-#print content
-#flows = json.loads(content)
-#print json.dumps(flows, indent=2)
-
-ip = '10.0.0.10'
-""""for flow in flows['flow-node-inventory:table'][0]['flow-node-inventory:flow']: 
-    print flow['flow-node-inventory:id']
-    print flow['flow-node-inventory:match']['flow-node-inventory:ipv4-destination']
-    print flow['flow-node-inventory:instructions']['flow-node-inventory:instruction'][0]['flow-node-inventory:apply-actions']['flow-node-inventory:action'][0]['flow-node-inventory:output-action']['flow-node-inventory:output-node-connector']
-"""
 
 def flow_rule_base(flowName, tableId, flowId, hardTimeout, idleTimeout):
     flow = etree.Element("flow")
@@ -159,9 +128,9 @@ def flow_rule_base(flowName, tableId, flowId, hardTimeout, idleTimeout):
     idle_timeout = etree.SubElement(flow, "idle-timeout")
     idle_timeout.text = idleTimeout
     priority = etree.SubElement(flow, "priority")
-    priority.text = "2"
+    priority.text = "1"
     cookie = etree.SubElement(flow, "cookie")
-    cookie.text = "1"
+    cookie.text = "0"
     barrier = etree.SubElement(flow, "barrier")
     barrier.text = "false"
     cookie_mask = etree.SubElement(flow, "cookie_mask")
@@ -178,7 +147,6 @@ def flow_rule_base(flowName, tableId, flowId, hardTimeout, idleTimeout):
     action = etree.SubElement(apply_actions, "action")
     order_action = etree.SubElement(action, "order")
     order_action.text = "0"
-    etree.SubElement(action, "flood-all-action")
     
     #The Matches
     match = etree.SubElement(flow, "match")
@@ -186,48 +154,97 @@ def flow_rule_base(flowName, tableId, flowId, hardTimeout, idleTimeout):
     ethernet_type = etree.SubElement(ethernet_match, "ethernet-type")
     type = etree.SubElement(ethernet_type, "type")
     type.text = "2048"
-    ipv4 = etree.SubElement(match,"ipv4-destination")
-    ipv4.text = "11.11.11.11/8"
     return flow
 
-def add_flow_match(flow, matches):
-    match = flow.xpath('//match')[0]
-    for newmatch in matches:
-        etree.SubElement(match, newmatch)
-    return None    
-        
-def add_flow_action(flow, actions):
+def add_flow_match_sp(flow, destination):
+    mat = flow.xpath('//match')[0]
+    ipv4d = etree.SubElement(mat, 'ipv4-destination')
+    ipv4d.text = destination
+    return flow
+
+def add_flow_action_sp(flow, port):
     action = flow.xpath('//action')[0]
-    for newaction in actions:
-        etree.SubElement(action, newaction)
+    _act = etree.SubElement(action, 'output-action')
+    onc = etree.SubElement(_act, 'output-node-connector')
+    onc.text = port
+    ml = etree.SubElement(_act, 'max-length')
+    ml.text = '600'   
     return flow
 
-
-#print(etree.tostring(flow_rule_base("FooBarXXX","1","127","666","666"), pretty_print=True, xml_declaration=True, encoding="utf-8", standalone=False))
-#body = etree.tostring(flow_rule_base("FooBarXXX","1","127","666","666"), xml_declaration=True, encoding="utf-8", standalone=False)
-#print restconf.put(h, 'http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:2/table/1/flow/127', etree.tostring(flow_rule_base("FooBarXXX","1","127","666","666"), xml_declaration=True, encoding="utf-8", standalone=False))
-action = []
-match = []
-answer = frontend.main_menu()
-if answer == 'addFlow':
-    answer = frontend.show_act_mat()
+def program():
+    answer = frontend.main_menu()
     if answer == 'addFlow':
-        _node, _tableId, _flowId, _flowName, _hardTimeOut, _idleTimeOut = frontend.add_flow_gui()
-        newFlow = flow_rule_base(_flowName, _tableId, _flowId, _hardTimeOut, _idleTimeOut)
-        newFlow = frontend.add_actions(newFlow)
-        newFlow = frontend.add_matches(newFlow)
+        answer = frontend.show_act_mat()
+        if answer == 'addFlow':
+            _node, _tableId, _flowId, _flowName, _hardTimeOut, _idleTimeOut = frontend.add_flow_gui(False)
+            newFlow = flow_rule_base(_flowName, _tableId, _flowId, _hardTimeOut, _idleTimeOut)
+            newFlow = frontend.add_actions(newFlow)
+            newFlow = frontend.add_matches(newFlow)
+            print etree.tostring(newFlow, pretty_print=True,xml_declaration=True, encoding="utf-8", standalone=False)
+            print restconf.put(confUrl+'opendaylight-inventory:nodes/node/openflow:1/table/'+_tableId+'/flow/'+_flowId, etree.tostring(newFlow, xml_declaration=True, encoding="utf-8", standalone=False))
+        elif answer == 'spfFlow':
+            srcHost, destHost = frontend.get_ip_spf()
+            shortest_path = get_sp(get_topology(restconf.get(findTopology)), host_switch(hosts, srcHost), host_switch(hosts, destHost))
+            print "The shortest path between host %s and %s follows the following path:\n" % (srcHost,destHost) +str(shortest_path)
+            print "Would you like to add this flow? (y/n) "
+            answer = frontend.yes_no()
+            if answer == 'y':
+                add_sp_flows(shortest_path, srcHost, destHost)
+                print "Your shortest path flow is added to the switches"
+            else:
+                pass
+        else:
+            pass
+    elif answer == 'lookFlows':
+        print json.dumps(frontend.view_flows(), indent=2)
+        print '\n'
         frontend.main_menu()
+    elif answer == 'delFlow':
+        frontend.del_flow()
     else:
-        frontend.main_menu()
-elif answer == 'lookFlows':
-    print json.dumps(frontend.view_flows(), indent=2)
-    print '\n'
-    frontend.main_menu()
-elif answer == 'delFlow':
-    frontend.del_flow()
-    frontend.main_menu()
-else:
-    frontend.main_menu()
+        pass
+    program()
+    
+program()
 
-        
+#DEPRECATED CODE SNIPPETS
+#
+#nodes = restconf.get('http://192.168.231.246:8080/restconf/operational/opendaylight-inventory:nodes/node/openflow:1')
+#print nodes
+#
+#for flow in flows['flow-node-inventory:table'][0]['flow-node-inventory:flow']: 
+#    print flow['flow-node-inventory:id']
+#    print flow['flow-node-inventory:match']['flow-node-inventory:ipv4-destination']
+#    print flow['flow-node-inventory:instructions']['flow-node-inventory:instruction'][0]['flow-node-inventory:apply-actions']['flow-node-inventory:action'][0]['flow-node-inventory:output-action']['flow-node-inventory:output-node-connector']
+#
+#content = restconf.get('http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:1/table/0/')
+"""
+try:
+  from lxml import etree
+  print("running with lxml.etree \n")
+except ImportError:
+  try:
+    # Python 2.5
+    import xml.etree.cElementTree as etree
+    print("running with cElementTree on Python 2.5+ \n")
+  except ImportError:
+    try:
+      # Python 2.5
+      import xml.etree.ElementTree as etree
+      print("running with ElementTree on Python 2.5+ \n")
+    except ImportError:
+      try:
+        # normal cElementTree install
+        import cElementTree as etree
+        print("running with cElementTree \n")
+      except ImportError:
+        try:
+          # normal ElementTree install
+          import elementtree.ElementTree as etree
+          print("running with ElementTree \n")
+        except ImportError:
+          print("Failed to import ElementTree from any known place  \n")
+"""
+
+       
         

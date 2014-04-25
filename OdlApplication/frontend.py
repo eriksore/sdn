@@ -218,7 +218,7 @@ def main_menu():
     else:
         print 'You answered gibberish! Try again'
         main_menu()
-    #return None
+    
 
 
     

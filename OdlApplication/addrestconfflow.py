@@ -15,15 +15,9 @@ baseUrl = 'http://192.168.231.246:8080'
 confUrl = baseUrl + '/restconf/config/' #Contains data inserted via controller
 operUrl = baseUrl + '/restconf/operational/' # Contains other data
 
-#"Old" REST APIs that still are used
-sdSalUrl = baseUrl + '/controller/nb/v2/'
-
 #Specific REST URLs
-findNodes = operUrl + '/opendaylight-inventory:nodes/'
-findTopo = operUrl + '/network-topology:network-topology/'
-findNodeConnector = operUrl + '/opendaylight-inventory:nodes/node/node-connector/'
 findTopology = operUrl + '/network-topology:network-topology/topology/flow:1/'
-findFlow = confUrl +'/opendaylight-inventory:nodes/node/openflow:1/table/0/'
+
 
 h = httplib2.Http(".cache")
 h.add_credentials('admin', 'admin')
@@ -31,21 +25,10 @@ h.add_credentials('admin', 'admin')
 flowIdCounter = int(100)
 hosts = restconf.get_active_hosts()
 
-def get_nodes(xml):
-    pre = json.loads(xml)
-    nodes = pre['nodes']['node']
-    return nodes
-
 def get_topology(xml):
     topology = json.loads(xml)
     nodes = topology['topology'][0]['node']
-    #for node in nodes:
-    #    print node['node-id']
     links = topology['topology'][0]['link']
-    #for link in links:
-    #    print "Source:      "+ link['source']['source-tp']
-    #    print "Destination: " + link['destination']['dest-tp']
-    #print json.dumps(topology, indent = 2)
     return topology
 
 def get_sp(topology, src, dst):
@@ -64,7 +47,13 @@ def host_switch(hosts, IP):
     for host in hosts:
         if host['networkAddress'] == IP:
             switch = host['nodeId']
-    return switch#If an error is thrown here, you have to do a 'pingall' on mininet. 
+    return switch#If an error is thrown here, you have to do a 'pingall' on mininet. This is caused by a bug in ODL 
+
+def host_port(hosts, IP):
+    for host in hosts:
+        if host['networkAddress'] == IP:
+            switchport = host['nodeConnectorId']
+    return switchport#If an error is thrown here, you have to do a 'pingall' on mininet. This is caused by a bug in ODL
 
 def find_ports(xml, headNode, tailNode):
     links = xml['topology'][0]['link']
@@ -77,6 +66,31 @@ def find_ports(xml, headNode, tailNode):
 def add_sp_flows(shortest_path, srcIP, dstIP):
     flowId = flowIdCounter
     hardTimeOut, idleTimeOut = frontend.add_flow_gui(True)
+    #Create flow rules to directly connected hosts from headnode and tailnode
+    #HEAD
+    flowName = shortest_path[0] + 'to' + srcIP
+    outPutPort = host_port(hosts, srcIP)
+    hostURL = confUrl+'opendaylight-inventory:nodes/node/'+shortest_path[0]+'/table/0/flow/'+str(flowId)
+    #Because of a bug in ODL when updating flows we have to delete
+    #any flows with the same flow id:
+    restconf.delete(hostURL)
+    flow = flow_rule_base(flowName, '0', str(flowId), hardTimeOut, idleTimeOut)
+    flow = add_flow_action_sp(flow, outPutPort)
+    flow = add_flow_match_sp(flow, srcIP)
+    XMLstring = etree.tostring(flow,pretty_print=True,xml_declaration=True, encoding="utf-8", standalone=False )
+    restconf.put(hostURL, XMLstring)
+    #TAIL
+    flowId = flowId + 1
+    flowName = shortest_path[-1] + 'to' + dstIP
+    outPutPort = host_port(hosts, dstIP)
+    hostURL = confUrl+'opendaylight-inventory:nodes/node/'+shortest_path[-1]+'/table/0/flow/'+str(flowId)
+    restconf.delete(hostURL)
+    flow = flow_rule_base(flowName, '0', str(flowId), hardTimeOut, idleTimeOut)
+    flow = add_flow_action_sp(flow, outPutPort)
+    flow = add_flow_match_sp(flow, dstIP)
+    XMLstring = etree.tostring(flow,pretty_print=True,xml_declaration=True, encoding="utf-8", standalone=False )
+    restconf.put(hostURL, XMLstring)
+    #For loop to create flow rules between all OF nodes end to end
     for i in range(len(shortest_path)-1):
         headNode = shortest_path[i]
         tailNode = shortest_path[i+1]
@@ -84,33 +98,23 @@ def add_sp_flows(shortest_path, srcIP, dstIP):
         #Forward Flow
         flowName = headNode + 'to' + tailNode + 'IPto' + dstIP
         outPutPort = find_ports(get_topology(restconf.get(findTopology)), shortest_path[i], shortest_path[i+1])
-        #Because of a bug in ODL when updating flows we have to delete
-        #any flows with the same flow id:
         forwardURL = confUrl+'opendaylight-inventory:nodes/node/'+shortest_path[i]+'/table/0/flow/'+str(flowId)
         restconf.delete(forwardURL)
-        port = find_ports(get_topology(restconf.get(findTopology)), headNode, tailNode)
         flow = flow_rule_base(flowName, '0', str(flowId), hardTimeOut, idleTimeOut)
         flow = add_flow_action_sp(flow, outPutPort)
         flow = add_flow_match_sp(flow, dstIP)
         forwardXMLstring = etree.tostring(flow,pretty_print=True,xml_declaration=True, encoding="utf-8", standalone=False )
         restconf.put(forwardURL, forwardXMLstring)
-        #Uncomment#print etree.tostring(flow,pretty_print=True,xml_declaration=True, encoding="utf-8", standalone=False )
         #Backward Flow
         flowName = tailNode + 'to' + headNode + 'IPto' + srcIP
         outPutPort = find_ports(get_topology(restconf.get(findTopology)), shortest_path[i+1], shortest_path[i])
         backwardURL = confUrl+'opendaylight-inventory:nodes/node/'+shortest_path[i+1]+'/table/0/flow/'+str(flowId)
         restconf.delete(backwardURL)
-        port = find_ports(get_topology(restconf.get(findTopology)), tailNode, headNode)
         flow = flow_rule_base(flowName, '0', str(flowId), hardTimeOut, idleTimeOut)
         flow = add_flow_action_sp(flow, outPutPort)
         flow = add_flow_match_sp(flow, srcIP)
         backwardXMLstring =  etree.tostring(flow,pretty_print=True,xml_declaration=True, encoding="utf-8", standalone=False )
         restconf.put(backwardURL, backwardXMLstring)
-        #Uncomment#print etree.tostring(flow,pretty_print=True,xml_declaration=True, encoding="utf-8", standalone=False )
-        
-def get_flows(xml):
-    flows = json.loads(xml)
-    print flows['flow-node-inventory:table'][0]['flow-node-inventory:flow']
 
 def flow_rule_base(flowName, tableId, flowId, hardTimeout, idleTimeout):
     flow = etree.Element("flow")
@@ -207,44 +211,6 @@ def program():
     
 program()
 
-#DEPRECATED CODE SNIPPETS
-#
-#nodes = restconf.get('http://192.168.231.246:8080/restconf/operational/opendaylight-inventory:nodes/node/openflow:1')
-#print nodes
-#
-#for flow in flows['flow-node-inventory:table'][0]['flow-node-inventory:flow']: 
-#    print flow['flow-node-inventory:id']
-#    print flow['flow-node-inventory:match']['flow-node-inventory:ipv4-destination']
-#    print flow['flow-node-inventory:instructions']['flow-node-inventory:instruction'][0]['flow-node-inventory:apply-actions']['flow-node-inventory:action'][0]['flow-node-inventory:output-action']['flow-node-inventory:output-node-connector']
-#
-#content = restconf.get('http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:1/table/0/')
-"""
-try:
-  from lxml import etree
-  print("running with lxml.etree \n")
-except ImportError:
-  try:
-    # Python 2.5
-    import xml.etree.cElementTree as etree
-    print("running with cElementTree on Python 2.5+ \n")
-  except ImportError:
-    try:
-      # Python 2.5
-      import xml.etree.ElementTree as etree
-      print("running with ElementTree on Python 2.5+ \n")
-    except ImportError:
-      try:
-        # normal cElementTree install
-        import cElementTree as etree
-        print("running with cElementTree \n")
-      except ImportError:
-        try:
-          # normal ElementTree install
-          import elementtree.ElementTree as etree
-          print("running with ElementTree \n")
-        except ImportError:
-          print("Failed to import ElementTree from any known place  \n")
-"""
 
        
         

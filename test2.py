@@ -26,14 +26,14 @@ def federatedNet():
 		globals()['h'+str(h)] = net.addHost( 'h%s' % h, mac='00:00:00:00:00:0%s' % h, ip='10.0.0.%s/8' % h )
 	
 	print "*** Add links between switches ***"
-	net.addLink(s1,s2)
-	net.addLink(s1,s3)
-	net.addLink(s2,s5)
-	net.addLink(s3,s4)
-	net.addLink(s4,s5)
+	net.addLink(switches[0],switches[1])
+	net.addLink(switches[0],switches[2])
+	net.addLink(switches[2],switches[4])
+	net.addLink(switches[2],switches[3])
+	net.addLink(switches[3],switches[4])
 	print "*** Add links to hosts ***"
-	net.addLink(s1,h1)
-	net.addLink(s5,h2)
+	net.addLink(switches[0],h1)
+	net.addLink(switches[4],h2)
 
 	net.build()
 	net.start()	

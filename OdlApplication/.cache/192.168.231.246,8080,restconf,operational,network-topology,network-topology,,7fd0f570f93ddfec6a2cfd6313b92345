@@ -1,0 +1,17 @@
+status: 200
+content-location: http://192.168.231.246:8080/restconf/operational//network-topology:network-topology/
+expires: Thu, 01 Jan 1970 01:00:00 CET
+server: Apache-Coyote/1.1
+cache-control: private
+date: Tue, 22 Apr 2014 11:58:18 GMT
+content-type: application/yang.data+json
+
+{
+    "network-topology": {
+        "topology": [
+            {
+                "topology-id": "flow:1"
+            }
+        ]
+    }
+}

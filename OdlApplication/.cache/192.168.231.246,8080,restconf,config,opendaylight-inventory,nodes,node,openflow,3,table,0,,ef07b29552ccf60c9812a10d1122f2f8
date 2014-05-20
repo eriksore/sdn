@@ -1,0 +1,129 @@
+status: 200
+content-location: http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:3/table/0/
+expires: Thu, 01 Jan 1970 01:00:00 CET
+server: Apache-Coyote/1.1
+cache-control: private
+date: Tue, 22 Apr 2014 19:48:23 GMT
+content-type: application/yang.data+json
+
+{
+    "flow-node-inventory:table": [
+        {
+            "flow-node-inventory:flow": [
+                {
+                    "flow-node-inventory:strict": false,
+                    "flow-node-inventory:flow-name": "openflow:3toopenflow:2IPto10.0.0.8",
+                    "flow-node-inventory:id": "101",
+                    "flow-node-inventory:table_id": 0,
+                    "flow-node-inventory:hard-timeout": 0,
+                    "flow-node-inventory:idle-timeout": 0,
+                    "flow-node-inventory:priority": 1,
+                    "flow-node-inventory:cookie": 0,
+                    "flow-node-inventory:barrier": false,
+                    "flow-node-inventory:cookie_mask": 255,
+                    "flow-node-inventory:installHw": true,
+                    "flow-node-inventory:instructions": {
+                        "flow-node-inventory:instruction": [
+                            {
+                                "flow-node-inventory:order": 0,
+                                "flow-node-inventory:apply-actions": {
+                                    "flow-node-inventory:action": [
+                                        {
+                                            "flow-node-inventory:order": 0,
+                                            "flow-node-inventory:output-action": {
+                                                "flow-node-inventory:output-node-connector": "openflow:3:3",
+                                                "flow-node-inventory:max-length": 600
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "flow-node-inventory:match": {
+                        "flow-node-inventory:ethernet-match": {
+                            "flow-node-inventory:ethernet-type": {
+                                "flow-node-inventory:type": 2048
+                            }
+                        },
+                        "flow-node-inventory:ipv4-destination": "10.0.0.8/8"
+                    }
+                },
+                {
+                    "flow-node-inventory:cookie": 0,
+                    "flow-node-inventory:hard-timeout": 0,
+                    "flow-node-inventory:id": "cce32f98-a64b-43b6-9b7c-95fd19027830",
+                    "flow-node-inventory:idle-timeout": 0,
+                    "flow-node-inventory:instructions": {
+                        "flow-node-inventory:instruction": [
+                            {
+                                "flow-node-inventory:apply-actions": {
+                                    "flow-node-inventory:action": [
+                                        {
+                                            "flow-node-inventory:set-dl-dst-action": {
+                                                "flow-node-inventory:address": "4a:b6:9f:41:62:7f"
+                                            }
+                                        },
+                                        {
+                                            "flow-node-inventory:output-action": {
+                                                "flow-node-inventory:output-node-connector": "openflow:3:2"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "flow-node-inventory:order": 0
+                            }
+                        ]
+                    },
+                    "flow-node-inventory:match": {
+                        "flow-node-inventory:ethernet-match": {
+                            "flow-node-inventory:ethernet-type": {
+                                "flow-node-inventory:type": 2048
+                            }
+                        },
+                        "flow-node-inventory:ipv4-destination": "10.0.0.2"
+                    },
+                    "flow-node-inventory:priority": 1,
+                    "flow-node-inventory:table_id": 0
+                },
+                {
+                    "flow-node-inventory:cookie": 0,
+                    "flow-node-inventory:hard-timeout": 0,
+                    "flow-node-inventory:id": "dd1aaff1-e1cf-4ee4-b761-38b5e670b556",
+                    "flow-node-inventory:idle-timeout": 0,
+                    "flow-node-inventory:instructions": {
+                        "flow-node-inventory:instruction": [
+                            {
+                                "flow-node-inventory:apply-actions": {
+                                    "flow-node-inventory:action": [
+                                        {
+                                            "flow-node-inventory:set-dl-dst-action": {
+                                                "flow-node-inventory:address": "42:8a:fa:51:da:56"
+                                            }
+                                        },
+                                        {
+                                            "flow-node-inventory:output-action": {
+                                                "flow-node-inventory:output-node-connector": "openflow:3:1"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "flow-node-inventory:order": 0
+                            }
+                        ]
+                    },
+                    "flow-node-inventory:match": {
+                        "flow-node-inventory:ethernet-match": {
+                            "flow-node-inventory:ethernet-type": {
+                                "flow-node-inventory:type": 2048
+                            }
+                        },
+                        "flow-node-inventory:ipv4-destination": "10.0.0.1"
+                    },
+                    "flow-node-inventory:priority": 1,
+                    "flow-node-inventory:table_id": 0
+                }
+            ]
+        }
+    ]
+}

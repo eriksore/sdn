@@ -1,11 +1,11 @@
 status: 200
 content-location: http://192.168.231.246:8080/controller/nb/v2/hosttracker/default/hosts/active/
-set-cookie: JSESSIONIDSSO=307C574C1EE90F8358DCD2C72B217118;
- Path=/, JSESSIONID=3B52498E1D8B9F8A39F29E1376B7B0BE; Path=/
+set-cookie: JSESSIONIDSSO=62AF9E15413ACD1133F36B4190620099;
+ Path=/, JSESSIONID=8458CFE961378547CADF06393464240C; Path=/
 expires: Thu, 01 Jan 1970 01:00:00 CET
 server: Apache-Coyote/1.1
 cache-control: private
-date: Wed, 23 Apr 2014 17:59:11 GMT
+date: Thu, 24 Apr 2014 04:52:20 GMT
 content-type: application/json
 
-{"hostConfig":[{"dataLayerAddress":"a6:81:72:cf:3d:50","nodeType":"MD_SAL","nodeId":"openflow:3","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:3:1","vlan":"0","staticHost":false,"networkAddress":"10.0.0.1"},{"dataLayerAddress":"ca:68:b7:5e:1e:f9","nodeType":"MD_SAL","nodeId":"openflow:3","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:3:2","vlan":"0","staticHost":false,"networkAddress":"10.0.0.2"},{"dataLayerAddress":"da:4f:f5:9f:a1:e3","nodeType":"MD_SAL","nodeId":"openflow:7","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:7:2","vlan":"0","staticHost":false,"networkAddress":"10.0.0.8"}]}
+{"hostConfig":[{"dataLayerAddress":"a6:81:72:cf:3d:50","nodeType":"MD_SAL","nodeId":"openflow:3","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:3:1","vlan":"0","staticHost":false,"networkAddress":"10.0.0.1"},{"dataLayerAddress":"da:4f:f5:9f:a1:e3","nodeType":"MD_SAL","nodeId":"openflow:7","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:7:2","vlan":"0","staticHost":false,"networkAddress":"10.0.0.8"},{"dataLayerAddress":"6e:65:cf:53:2c:46","nodeType":"MD_SAL","nodeId":"openflow:7","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:7:1","vlan":"0","staticHost":false,"networkAddress":"10.0.0.7"},{"dataLayerAddress":"4e:61:01:06:1f:3a","nodeType":"MD_SAL","nodeId":"openflow:4","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:4:2","vlan":"0","staticHost":false,"networkAddress":"10.0.0.4"},{"dataLayerAddress":"d2:bf:16:7b:2c:7d","nodeType":"MD_SAL","nodeId":"openflow:6","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:6:2","vlan":"0","staticHost":false,"networkAddress":"10.0.0.6"},{"dataLayerAddress":"be:49:55:12:ca:fe","nodeType":"MD_SAL","nodeId":"openflow:6","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:6:1","vlan":"0","staticHost":false,"networkAddress":"10.0.0.5"},{"dataLayerAddress":"16:84:1b:27:cf:11","nodeType":"MD_SAL","nodeId":"openflow:4","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:4:1","vlan":"0","staticHost":false,"networkAddress":"10.0.0.3"},{"dataLayerAddress":"ca:68:b7:5e:1e:f9","nodeType":"MD_SAL","nodeId":"openflow:3","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:3:2","vlan":"0","staticHost":false,"networkAddress":"10.0.0.2"}]}

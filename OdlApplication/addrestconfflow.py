@@ -175,6 +175,10 @@ def add_flow_action_sp(flow, port):
     ml.text = '600'   
     return flow
 
+class Move:
+    def __init__(self):
+        pass
+
 def program():
     answer = frontend.main_menu()
     if answer == 'addFlow':
@@ -211,6 +215,13 @@ def program():
     
 program()
 
+#To do: 
+# Define a move function for tunnels:
+#   - Find secondary path
+#   - Make flow rules
+#   - Insert flow rules from destination to source, in that order
+#   - Insert flow rule on headNode last with higher priority than the old rule
+#   - Delete old rules for old tunnel after the new tunnel is operational and all traffic flows on the new tunnel. = No packet loss :-)
 
        
         

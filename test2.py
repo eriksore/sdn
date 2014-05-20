@@ -28,9 +28,9 @@ def federatedNet():
 	print "*** Add links between switches ***"
 	net.addLink(switches[0],switches[1])
 	net.addLink(switches[0],switches[2])
-	net.addLink(switches[2],switches[4])
 	net.addLink(switches[2],switches[3])
 	net.addLink(switches[3],switches[4])
+	net.addLink(switches[1],switches[4])
 	print "*** Add links to hosts ***"
 	net.addLink(switches[0],h1)
 	net.addLink(switches[4],h2)

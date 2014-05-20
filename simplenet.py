@@ -7,6 +7,8 @@ from mininet.util import irange
 import sys
 flush = sys.stdout.flush
 
+net = Mininet(controller=RemoteController, link=TCLink, switch=OVSKernelSwitch, protocols=OpenFlow13)
+
 print "*** Creating Nodes ***"
 print "*** Adding remote controller ***"
 c0 = net.addController( 'c0', ip='192.168.231.246', port=6633)

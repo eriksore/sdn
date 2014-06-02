@@ -24,7 +24,11 @@ def federatedNet():
 	hosts = {}
 	for h in irange( 1, 2):
 		globals()['h'+str(h)] = net.addHost( 'h%s' % h, mac='00:00:00:00:00:0%s' % h, ip='10.0.0.%s/8' % h )
-	
+	s1.cmd('ovs-vsctl set Bridge s1 protocols=OpenFlow13')
+	s2.cmd('ovs-vsctl set Bridge s2 protocols=OpenFlow13')
+	s3.cmd('ovs-vsctl set Bridge s3 protocols=OpenFlow13')
+	s4.cmd('ovs-vsctl set Bridge s4 protocols=OpenFlow13')
+	s5.cmd('ovs-vsctl set Bridge s5 protocols=OpenFlow13')
 	print "*** Add links between switches ***"
 	net.addLink(switches[0],switches[1])
 	net.addLink(switches[0],switches[2])

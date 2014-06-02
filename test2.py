@@ -11,7 +11,7 @@ from mininet.util import irange
 
 
 def federatedNet():
-	net = Mininet( controller=RemoteController, link=TCLink, switch=OVSKernelSwitch )
+	net = Mininet( controller=RemoteController, link=TCLink, switch=OVSKernelSwitch,protocols=OpenFlow13 )
 
 	print "*** Creating Nodes ***"
 	print "*** Adding remote controller ***"

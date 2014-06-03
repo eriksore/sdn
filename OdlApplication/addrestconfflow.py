@@ -14,9 +14,9 @@ import frontend
 baseUrl = 'http://192.168.231.246:8080'
 confUrl = baseUrl + '/restconf/config/' #Contains data inserted via controller
 operUrl = baseUrl + '/restconf/operational/' # Contains other data
-
-#Specific REST URLs
 findTopology = operUrl + '/network-topology:network-topology/topology/flow:1/'
+#Specific REST URLs
+
 
 
 h = httplib2.Http(".cache")
@@ -65,7 +65,7 @@ def find_ports(xml, headNode, tailNode):
     
 def add_sp_flows(shortest_path, srcIP, dstIP):
     flowId = flowIdCounter
-    hardTimeOut, idleTimeOut = frontend.add_flow_gui(True)
+    hardTimeOut, idleTimeOut = '0','0'
     #Create flow rules to directly connected hosts from headnode and tailnode
     #HEAD
     flowName = shortest_path[0] + 'to' + srcIP
@@ -174,17 +174,63 @@ def add_flow_action_sp(flow, port):
     ml = etree.SubElement(_act, 'max-length')
     ml.text = '600'   
     return flow
+#To do: 
+# Define a move function for tunnels:
+#   - Find secondary path
+#   - Make flow rules
+#   - Insert flow rules from destination to source, in that order
+#   - Insert flow rule on headNode last with higher priority than the old rule
+#   - Delete old rules for old tunnel after the new tunnel is operational and all traffic flows on the new tunnel. = No packet loss :-)
+def exclude_switch_spf(nonSwitch, topology, src, dst):
+    graph = nx.Graph()
+    nodes = topology['topology'][0]['node']
+    #nodes.remove(nonSwitch)
+    links = topology['topology'][0]['link']
+    for node in nodes:
+        graph.add_node(node['node-id'])
+    
+    for link in links:
+        e = (link['source']['source-node'], link['destination']['dest-node'])
+        graph.add_edge(*e)
+    graph.remove_node(nonSwitch)
+    sp = nx.shortest_path(graph, src, dst)
+    return sp
 
-class Move:
-    def __init__(self):
-        pass
+def move_delete_old(srcIP, destIP):
+    nodes = restconf.get_topology(restconf.get(findTopology))['topology'][0]['node']
+    for node in nodes:
+        tables = restconf.get('http://192.168.231.246:8080/restconf/operational/opendaylight-inventory:nodes/node/'+node['node-id'])
+        flowTables = json.loads(tables)
+        try:
+            for table in flowTables['node'][0]['flow-node-inventory:table']:
+                if table['opendaylight-flow-table-statistics:flow-table-statistics']['opendaylight-flow-table-statistics:active-flows'] != 0:
+                    try:
+                        flowRules = restconf.get(confUrl+'opendaylight-inventory:nodes/node/'+node['node-id']+'/table/'+str(table['flow-node-inventory:id']))
+                        rules = json.loads(flowRules)
+                        for rule in rules['flow-node-inventory:table'][0]['flow-node-inventory:flow']:
+                            if rule['flow-node-inventory:match']['flow-node-inventory:ipv4-destination'] == srcIP:
+                                tableID = str(table['flow-node-inventory:id'])
+                                flowID = str(rule['flow-node-inventory:id'])
+                                url = confUrl+'opendaylight-inventory:nodes/node/'+node['node-id']+'/table/'+tableID+'/flow/'+flowID
+                                restconf.delete(url)
+                            elif rule['flow-node-inventory:match']['flow-node-inventory:ipv4-destination'] == destIP:
+                                tableID = str(table['flow-node-inventory:id'])
+                                flowID = str(rule['flow-node-inventory:id'])
+                                url = confUrl+'opendaylight-inventory:nodes/node/'+node['node-id']+'/table/'+tableID+'/flow/'+flowID
+                                restconf.delete(url)
+                    except ValueError:
+                        pass
+        except KeyError:
+            pass
+
+   
 
 def program():
     answer = frontend.main_menu()
     if answer == 'addFlow':
         answer = frontend.show_act_mat()
         if answer == 'addFlow':
-            _node, _tableId, _flowId, _flowName, _hardTimeOut, _idleTimeOut = frontend.add_flow_gui(False)
+            _node, _tableId, _flowId, _flowName, _hardTimeOut, _idleTimeOut = frontend.add_flow_gui()
             newFlow = flow_rule_base(_flowName, _tableId, _flowId, _hardTimeOut, _idleTimeOut)
             newFlow = frontend.add_actions(newFlow)
             newFlow = frontend.add_matches(newFlow)
@@ -209,19 +255,21 @@ def program():
         frontend.main_menu()
     elif answer == 'delFlow':
         frontend.del_flow()
+    elif answer == 'moveFlow':
+        nonSwitch, srcHost, destHost = frontend.move_flow()
+        topo = get_topology(restconf.get(findTopology))
+        newPath = exclude_switch_spf(nonSwitch, topo, host_switch(hosts, srcHost), host_switch(hosts, destHost))
+        print 'The new path is: '+str(newPath)
+        move_delete_old(srcHost,destHost)
+        add_sp_flows(newPath, srcHost, destHost)
     else:
         pass
     program()
-    
+   
 program()
 
-#To do: 
-# Define a move function for tunnels:
-#   - Find secondary path
-#   - Make flow rules
-#   - Insert flow rules from destination to source, in that order
-#   - Insert flow rule on headNode last with higher priority than the old rule
-#   - Delete old rules for old tunnel after the new tunnel is operational and all traffic flows on the new tunnel. = No packet loss :-)
 
-       
+
+
+
         

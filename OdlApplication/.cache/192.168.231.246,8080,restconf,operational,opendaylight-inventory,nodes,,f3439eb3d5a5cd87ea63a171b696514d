@@ -3,7 +3,7 @@ content-location: http://192.168.231.246:8080/restconf/operational/opendaylight-
 expires: Thu, 01 Jan 1970 01:00:00 CET
 server: Apache-Coyote/1.1
 cache-control: private
-date: Tue, 22 Apr 2014 19:49:27 GMT
+date: Sun, 27 Apr 2014 00:23:04 GMT
 content-type: application/yang.data+json
 
 {
@@ -17,6 +17,7 @@ content-type: application/yang.data+json
                 "flow-node-inventory:manufacturer": "Nicira, Inc.",
                 "flow-node-inventory:switch-features": {
                     "flow-node-inventory:capabilities": [
+                        "flow-node-inventory:flow-feature-capability-arp-match-ip",
                         "flow-node-inventory:flow-feature-capability-flow-stats",
                         "flow-node-inventory:flow-feature-capability-port-stats",
                         "flow-node-inventory:flow-feature-capability-queue-stats",
@@ -35,6 +36,7 @@ content-type: application/yang.data+json
                 "flow-node-inventory:manufacturer": "Nicira, Inc.",
                 "flow-node-inventory:switch-features": {
                     "flow-node-inventory:capabilities": [
+                        "flow-node-inventory:flow-feature-capability-arp-match-ip",
                         "flow-node-inventory:flow-feature-capability-flow-stats",
                         "flow-node-inventory:flow-feature-capability-port-stats",
                         "flow-node-inventory:flow-feature-capability-queue-stats",
@@ -53,6 +55,7 @@ content-type: application/yang.data+json
                 "flow-node-inventory:manufacturer": "Nicira, Inc.",
                 "flow-node-inventory:switch-features": {
                     "flow-node-inventory:capabilities": [
+                        "flow-node-inventory:flow-feature-capability-arp-match-ip",
                         "flow-node-inventory:flow-feature-capability-flow-stats",
                         "flow-node-inventory:flow-feature-capability-port-stats",
                         "flow-node-inventory:flow-feature-capability-queue-stats",
@@ -71,6 +74,7 @@ content-type: application/yang.data+json
                 "flow-node-inventory:manufacturer": "Nicira, Inc.",
                 "flow-node-inventory:switch-features": {
                     "flow-node-inventory:capabilities": [
+                        "flow-node-inventory:flow-feature-capability-arp-match-ip",
                         "flow-node-inventory:flow-feature-capability-flow-stats",
                         "flow-node-inventory:flow-feature-capability-port-stats",
                         "flow-node-inventory:flow-feature-capability-queue-stats",
@@ -89,6 +93,7 @@ content-type: application/yang.data+json
                 "flow-node-inventory:manufacturer": "Nicira, Inc.",
                 "flow-node-inventory:switch-features": {
                     "flow-node-inventory:capabilities": [
+                        "flow-node-inventory:flow-feature-capability-arp-match-ip",
                         "flow-node-inventory:flow-feature-capability-flow-stats",
                         "flow-node-inventory:flow-feature-capability-port-stats",
                         "flow-node-inventory:flow-feature-capability-queue-stats",
@@ -98,29 +103,6 @@ content-type: application/yang.data+json
                     "flow-node-inventory:max_tables": 254
                 },
                 "id": "openflow:4"
-            },
-            {
-                "opendaylight-meter-statistics:meter-features": {
-                    "opendaylight-meter-statistics:max_bands": 0,
-                    "opendaylight-meter-statistics:max_color": 0,
-                    "opendaylight-meter-statistics:max_meter": 0
-                },
-                "flow-node-inventory:hardware": "Open vSwitch",
-                "flow-node-inventory:serial-number": "None",
-                "flow-node-inventory:description": "None",
-                "flow-node-inventory:software": "2.0.0",
-                "id": "openflow:7",
-                "flow-node-inventory:switch-features": {
-                    "flow-node-inventory:capabilities": [
-                        "flow-node-inventory:flow-feature-capability-flow-stats",
-                        "flow-node-inventory:flow-feature-capability-port-stats",
-                        "flow-node-inventory:flow-feature-capability-queue-stats",
-                        "flow-node-inventory:flow-feature-capability-table-stats"
-                    ],
-                    "flow-node-inventory:max_buffers": 256,
-                    "flow-node-inventory:max_tables": 254
-                },
-                "flow-node-inventory:manufacturer": "Nicira, Inc."
             },
             {
                 "flow-node-inventory:serial-number": "None",
@@ -138,7 +120,7 @@ content-type: application/yang.data+json
                     "flow-node-inventory:max_buffers": 256,
                     "flow-node-inventory:max_tables": 254
                 },
-                "id": "openflow:6"
+                "id": "openflow:7"
             }
         ]
     }

@@ -16,7 +16,7 @@ findTopo = operUrl + '/network-topology:network-topology/'
 findNodeConnector = operUrl + '/opendaylight-inventory:nodes/node/node-connector/'
 findTopology = operUrl + '/network-topology:network-topology/topology/flow:1/'
 findFlow = confUrl +'/opendaylight-inventory:nodes/node/openflow:1/table/0/'
-
+findTopology = operUrl + '/network-topology:network-topology/topology/flow:1/'
 h = httplib2.Http(".cache")
 h.add_credentials('admin', 'admin')
 
@@ -48,4 +48,11 @@ def get_active_hosts():
     hostConfig = json.loads(content)
     hosts = hostConfig['hostConfig']
     return hosts
+
+def get_topology(xml):
+    topology = json.loads(xml)
+    nodes = topology['topology'][0]['node']
+    links = topology['topology'][0]['link']
+    return topology
+
     

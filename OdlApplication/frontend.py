@@ -5,16 +5,16 @@ from lxml import etree
 baseUrl = 'http://192.168.231.246:8080'
 confUrl = baseUrl + '/restconf/config/'
 operUrl = baseUrl + '/restconf/operational/'
-
+findTopology = operUrl + '/network-topology:network-topology/topology/flow:1/'
 actionsTxt = open('actions.txt', 'r')
 matchesTxt = open('matches.txt', 'r')
 
 def view_flows():
     print 'On which switch do you want to look at the flows?'
-    print 'Type in the number of the switch:'
-    hosts = restconf.get_active_hosts()
-    for host in hosts:
-        print host['nodeId']
+    print 'Type in the number of the switch (as listed):'
+    nodes = restconf.get_topology(restconf.get(findTopology))['topology'][0]['node']
+    for node in nodes:
+        print node['node-id']
     answer = raw_input('> ')
     print 'Type in the number of the table you would like to look at:'
     answer2 = raw_input('> ')
@@ -77,24 +77,19 @@ def show_act_mat():
         show_act_mat()
     return None
 
-def add_flow_gui(bool):
+def add_flow_gui():
     print 'You chose to add a flow. Please answer these parameters'
-    
-    if bool == False:
-        print 'First the RESTConf specific parameters. E.g: /opendaylight-inventory:nodes/node/openflow:1/table/0/flow/1'
-        node = raw_input('Node? > ')
-        table = raw_input('Table? > ')
-        flowId = raw_input('Flow number? > ')
-        print 'Then the flow specifics:'
-        flowName = raw_input('FlowName? > ')
-        hardTimeOut = raw_input('Hard Time Out? > ') 
-        idleTimeOut = raw_input('Idle Time Out? > ')
-        return node, table, flowId, flowName, hardTimeOut, idleTimeOut
-    else:
-        print 'Answer these flow specifics:'
-        hardTimeOut = raw_input('Hard Time Out? > ') 
-        idleTimeOut = raw_input('Idle Time Out? > ')
-        return hardTimeOut, idleTimeOut   
+    print 'First the RESTConf specific parameters. E.g: /opendaylight-inventory:nodes/node/openflow:1/table/0/flow/1'
+    node = raw_input('Node? > ')
+    table = raw_input('Table? > ')
+    flowId = raw_input('Flow number? > ')
+    print 'Then the flow specifics:'
+    flowName = raw_input('FlowName? > ')
+    hardTimeOut = raw_input('Hard Time Out? > ') 
+    idleTimeOut = raw_input('Idle Time Out? > ')
+    return node, table, flowId, flowName, hardTimeOut, idleTimeOut
+
+        
    
 def add_actions(xml):
     print 'You need to add some actions to your flow'
@@ -135,7 +130,7 @@ def add_matches(xml):
             print '    The default Ethernet type is 2048. Do you need to change this? (y/n)'
             answer = raw_input('    >')
             if answer == 'y':
-                e_type = xml-xpath('//ethernet-type')[0]
+                e_type = xml.xpath('//ethernet-type')[0]
             else:
                 pass
             print '    You need to add some subelements to that one:'
@@ -201,11 +196,22 @@ def add_matches(xml):
             pass
         i = i -1
     return xml
+
+def move_flow():
+    print 'Between which hosts do you want to move the tunnel?'
+    srcHost = raw_input('Source host >')
+    destHost = raw_input('Destination host >')
+    print 'Choose node to exclude from SPF calculation:'
+    nonSwitch = raw_input(' >')
+    return nonSwitch, srcHost, destHost
+
+
 def main_menu():
     print "Welcome, what would you like to do? Type in number:"
     print "1. Add Flow"
     print "2. Look at flows"
     print "3. Delete flows"
+    print "4. Move a flow"
     answer = raw_input('> ')
     if answer == '1':
         return 'addFlow'
@@ -215,6 +221,9 @@ def main_menu():
     elif answer == '3':
         print 'You want to delete a flow'
         return 'delFlow'
+    elif answer == '4':
+        print 'You want to move a flow'
+        return 'moveFlow'
     else:
         print 'You answered gibberish! Try again'
         main_menu()

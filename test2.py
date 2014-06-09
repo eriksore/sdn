@@ -15,7 +15,7 @@ def federatedNet():
 
 	print "*** Creating Nodes ***"
 	print "*** Adding remote controller ***"
-	c0 = net.addController( 'c0', ip='192.168.231.246', port=6633)
+	c0 = net.addController( 'c0', ip='192.168.231.250', port=6633)
 	
 	print "*** Adding switches ***"
 	switches = [ net.addSwitch( 's%s' % s ) for s in irange( 1, 5 ) ]

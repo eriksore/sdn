@@ -29,7 +29,7 @@ def customNet():
         CLI( net )
         net.stop()
 
-if __name__ =='__main__'
+if __name__ =='__main__':
         setLogLevel('info')
         customNet()
 

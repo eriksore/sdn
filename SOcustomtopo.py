@@ -15,13 +15,13 @@ def customNet():
         router2 = self.addSwitch( 'r2' )
         router3 = self.addSwitch( 'r3' )
         # Add links
-        self.addLink( pc0, switch0 )
-        self.addLink( pc1, switch0 )
-        self.addLink( pc2, switch1 )
-        self.addLink( pc3, switch1 )
-        self.addLink( switch0, router3 )
-        self.addLink( switch1, router2 )
-        self.addLink( router2, router3 )
+        net.addLink( pc0, switch0 )
+        net.addLink( pc1, switch0 )
+        net.addLink( pc2, switch1 )
+        net.addLink( pc3, switch1 )
+        net.addLink( switch0, router3 )
+        net.addLink( switch1, router2 )
+        net.addLink( router2, router3 )
 
         net.build()
         net.start()
@@ -33,5 +33,3 @@ if __name__ =='__main__':
         setLogLevel('info')
         customNet()
 
-
-topos = { 'mytopo': ( lambda: MyTopo() ) }

@@ -5,15 +5,15 @@ from mininet.log import setLogLevel
 def customNet():
         net = Mininet()        
         #Adding hosts
-        pc0 = self.addHost( 'h1' )
-        pc1 = self.addHost( 'h2' )
-        pc2 = self.addHost( 'h3' )
-        pc3 = self.addHost( 'h4' )
+        pc0 = net.addHost( 'h1' )
+        pc1 = net.addHost( 'h2' )
+        pc2 = net.addHost( 'h3' )
+        pc3 = net.addHost( 'h4' )
         #Adding switches
-        switch0 = self.addSwitch( 's1' )
-        switch1 = self.addSwitch( 's2' )
-        router2 = self.addSwitch( 'r2' )
-        router3 = self.addSwitch( 'r3' )
+        switch0 = net.addSwitch( 's1' )
+        switch1 = net.addSwitch( 's2' )
+        router2 = net.addSwitch( 'r2' )
+        router3 = net.addSwitch( 'r3' )
         # Add links
         net.addLink( pc0, switch0 )
         net.addLink( pc1, switch0 )

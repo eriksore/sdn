@@ -1,19 +1,15 @@
 from mininet.topo import Topo
-
-class MyTopo( Topo ):
-    "Simple topology example."
-
-    def __init__( self ):
-        "Create custom topo."
-
-        # Initialize topology
-        Topo.__init__( self )
-
-        # Add hosts and switches
+from mininet.net import Mininet
+from mininet.cli import CLI
+from mininet.log import setLogLevel
+def customNet():
+        net = Mininet()        
+        #Adding hosts
         pc0 = self.addHost( 'h1' )
         pc1 = self.addHost( 'h2' )
         pc2 = self.addHost( 'h3' )
         pc3 = self.addHost( 'h4' )
+        #Adding switches
         switch0 = self.addSwitch( 's1' )
         switch1 = self.addSwitch( 's2' )
         router2 = self.addSwitch( 'r2' )
@@ -26,6 +22,16 @@ class MyTopo( Topo ):
         self.addLink( switch0, router3 )
         self.addLink( switch1, router2 )
         self.addLink( router2, router3 )
+
+        net.build()
+        net.start()
+
+        CLI( net )
+        net.stop()
+
+if __name__ =='__main__'
+        setLogLevel('info')
+        customNet()
 
 
 topos = { 'mytopo': ( lambda: MyTopo() ) }

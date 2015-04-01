@@ -1,0 +1,11 @@
+status: 200
+content-location: http://192.168.231.250:8080/controller/nb/v2/hosttracker/default/hosts/active/
+set-cookie: JSESSIONIDSSO=BB88E79D45D8F25682B4CC9A2216EF69;
+ Path=/, JSESSIONID=4DBD6666F643B6DC82CA2D845C9FD28B; Path=/
+expires: Wed, 31 Dec 1969 16:00:00 PST
+server: Apache-Coyote/1.1
+cache-control: private
+date: Tue, 10 Jun 2014 18:48:08 GMT
+content-type: application/json
+
+{"hostConfig":[{"dataLayerAddress":"00:00:00:00:00:02","nodeType":"MD_SAL","nodeId":"openflow:5","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:5:3","vlan":"0","staticHost":false,"networkAddress":"10.0.0.2"},{"dataLayerAddress":"00:00:00:00:00:01","nodeType":"MD_SAL","nodeId":"openflow:1","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:1:3","vlan":"0","staticHost":false,"networkAddress":"10.0.0.1"}]}

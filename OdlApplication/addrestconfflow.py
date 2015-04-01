@@ -11,26 +11,30 @@ import restconf
 import frontend
 
 #Base URLs for Config and operational
-baseUrl = 'http://192.168.231.246:8080'
+baseUrl = 'http://192.168.231.255:8080'
 confUrl = baseUrl + '/restconf/config/' #Contains data inserted via controller
-operUrl = baseUrl + '/restconf/operational/' # Contains other data
+operUrl = baseUrl + '/restconf/operational' # Contains other data
 findTopology = operUrl + '/network-topology:network-topology/topology/flow:1/'
 #Specific REST URLs
 
 
 
 h = httplib2.Http(".cache")
+#Username and password for controller
 h.add_credentials('admin', 'admin')
-
+#Counter used when creating flows
 flowIdCounter = int(100)
+#Create a list with active hosts in the network
 hosts = restconf.get_active_hosts()
 
+#Function to find topology parameters
 def get_topology(xml):
     topology = json.loads(xml)
+    print topology
     nodes = topology['topology'][0]['node']
     links = topology['topology'][0]['link']
     return topology
-
+#Function to find the shortest path between two nodes in the network
 def get_sp(topology, src, dst):
     graph = nx.Graph()
     nodes = topology['topology'][0]['node']
@@ -40,21 +44,22 @@ def get_sp(topology, src, dst):
     for link in links:
         e = (link['source']['source-node'], link['destination']['dest-node'])
         graph.add_edge(*e)
+    #Using the networkx library to calculate shortest path
     sp = nx.shortest_path(graph, src, dst)
     return sp
-
+#Function to find which node a host is connected to
 def host_switch(hosts, IP):
     for host in hosts:
         if host['networkAddress'] == IP:
             switch = host['nodeId']
     return switch#If an error is thrown here, you have to do a 'pingall' on mininet. This is caused by a bug in ODL 
-
+#Function to find which port of node a host is connected to
 def host_port(hosts, IP):
     for host in hosts:
         if host['networkAddress'] == IP:
             switchport = host['nodeConnectorId']
     return switchport#If an error is thrown here, you have to do a 'pingall' on mininet. This is caused by a bug in ODL
-
+#Function to fint port numbers for links between nodes
 def find_ports(xml, headNode, tailNode):
     links = xml['topology'][0]['link']
     for link in links:
@@ -62,7 +67,7 @@ def find_ports(xml, headNode, tailNode):
             portId = link['source']['source-tp']
             return portId
     return None
-    
+#Function to add shortest path flows    
 def add_sp_flows(shortest_path, srcIP, dstIP):
     flowId = flowIdCounter
     hardTimeOut, idleTimeOut = '0','0'
@@ -115,7 +120,7 @@ def add_sp_flows(shortest_path, srcIP, dstIP):
         flow = add_flow_match_sp(flow, srcIP)
         backwardXMLstring =  etree.tostring(flow,pretty_print=True,xml_declaration=True, encoding="utf-8", standalone=False )
         restconf.put(backwardURL, backwardXMLstring)
-
+#Function to build the base of a flow rule
 def flow_rule_base(flowName, tableId, flowId, hardTimeout, idleTimeout):
     flow = etree.Element("flow")
     flow.set('xlmns','urn:opendaylight:flow:inventory')
@@ -159,13 +164,13 @@ def flow_rule_base(flowName, tableId, flowId, hardTimeout, idleTimeout):
     type = etree.SubElement(ethernet_type, "type")
     type.text = "2048"
     return flow
-
+#function to add a match field to a flow rule
 def add_flow_match_sp(flow, destination):
     mat = flow.xpath('//match')[0]
     ipv4d = etree.SubElement(mat, 'ipv4-destination')
     ipv4d.text = destination
     return flow
-
+#Function to add an action to a flow rule
 def add_flow_action_sp(flow, port):
     action = flow.xpath('//action')[0]
     _act = etree.SubElement(action, 'output-action')
@@ -174,13 +179,7 @@ def add_flow_action_sp(flow, port):
     ml = etree.SubElement(_act, 'max-length')
     ml.text = '600'   
     return flow
-#To do: 
-# Define a move function for tunnels:
-#   - Find secondary path
-#   - Make flow rules
-#   - Insert flow rules from destination to source, in that order
-#   - Insert flow rule on headNode last with higher priority than the old rule
-#   - Delete old rules for old tunnel after the new tunnel is operational and all traffic flows on the new tunnel. = No packet loss :-)
+#Function to exclude node from path calculation
 def exclude_switch_spf(nonSwitch, topology, src, dst):
     graph = nx.Graph()
     nodes = topology['topology'][0]['node']
@@ -195,11 +194,11 @@ def exclude_switch_spf(nonSwitch, topology, src, dst):
     graph.remove_node(nonSwitch)
     sp = nx.shortest_path(graph, src, dst)
     return sp
-
+#Function to delete old flow rules when moving a flow
 def move_delete_old(srcIP, destIP):
     nodes = restconf.get_topology(restconf.get(findTopology))['topology'][0]['node']
     for node in nodes:
-        tables = restconf.get('http://192.168.231.246:8080/restconf/operational/opendaylight-inventory:nodes/node/'+node['node-id'])
+        tables = restconf.get('http://192.168.231.250:8080/restconf/operational/opendaylight-inventory:nodes/node/'+node['node-id'])
         flowTables = json.loads(tables)
         try:
             for table in flowTables['node'][0]['flow-node-inventory:table']:
@@ -224,7 +223,7 @@ def move_delete_old(srcIP, destIP):
             pass
 
    
-
+#Main program
 def program():
     answer = frontend.main_menu()
     if answer == 'addFlow':

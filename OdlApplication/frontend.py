@@ -2,13 +2,13 @@ import restconf
 import json
 from lxml import etree
 #Base URLs for Config and operational
-baseUrl = 'http://192.168.231.246:8080'
+baseUrl = 'http://192.168.231.255:8080'
 confUrl = baseUrl + '/restconf/config/'
 operUrl = baseUrl + '/restconf/operational/'
 findTopology = operUrl + '/network-topology:network-topology/topology/flow:1/'
 actionsTxt = open('actions.txt', 'r')
 matchesTxt = open('matches.txt', 'r')
-
+#Function to view flows in the topology
 def view_flows():
     print 'On which switch do you want to look at the flows?'
     print 'Type in the number of the switch (as listed):'
@@ -18,14 +18,14 @@ def view_flows():
     answer = raw_input('> ')
     print 'Type in the number of the table you would like to look at:'
     answer2 = raw_input('> ')
-    content = restconf.get('http://192.168.231.246:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:'+answer+'/table/'+answer2+'/')
+    content = restconf.get('http://192.168.231.250:8080/restconf/config/opendaylight-inventory:nodes/node/openflow:'+answer+'/table/'+answer2+'/')
     flows = json.loads(content)
     return flows['flow-node-inventory:table'][0]['flow-node-inventory:flow']
-
+#User input yes or no
 def yes_no():
     answer = raw_input(' >')
     return answer
-    
+#Function to delete a flow manually    
 def del_flow():  
     print 'On which node do you want to delete a flow?'
     node = raw_input('> ')
@@ -43,7 +43,7 @@ def del_flow():
     else:
         print 'You answered gibberish! Try again'
         del_flow()
-
+#User input for host source and destination addresses
 def get_ip_spf():
     srcHost = raw_input('Type IP of Source host > ')
     destHost = raw_input('Type IP of destination host >')
@@ -76,7 +76,7 @@ def show_act_mat():
         print 'You answered gibberish! Try again'
         show_act_mat()
     return None
-
+#User input for flow specifics
 def add_flow_gui():
     print 'You chose to add a flow. Please answer these parameters'
     print 'First the RESTConf specific parameters. E.g: /opendaylight-inventory:nodes/node/openflow:1/table/0/flow/1'
@@ -90,7 +90,7 @@ def add_flow_gui():
     return node, table, flowId, flowName, hardTimeOut, idleTimeOut
 
         
-   
+#User input for actions  
 def add_actions(xml):
     print 'You need to add some actions to your flow'
     i = int(input('How many actions do you need to add? > '))
@@ -116,7 +116,7 @@ def add_actions(xml):
             etree.SubElement(action, act)
         i = i - 1
     return xml
-    
+#User input for matches   
 def add_matches(xml):
     mat = xml.xpath('//match')[0]
     print 'You need to add some matches to your flow'
@@ -196,7 +196,7 @@ def add_matches(xml):
             pass
         i = i -1
     return xml
-
+#User input used when moving a tunnel
 def move_flow():
     print 'Between which hosts do you want to move the tunnel?'
     srcHost = raw_input('Source host >')
@@ -205,7 +205,7 @@ def move_flow():
     nonSwitch = raw_input(' >')
     return nonSwitch, srcHost, destHost
 
-
+#Main meno for the UI
 def main_menu():
     print "Welcome, what would you like to do? Type in number:"
     print "1. Add Flow"

@@ -29,7 +29,7 @@ destIP = '10.0.0.2'
 nodes = restconf.get_topology(restconf.get(findTopology))#['topology'][0]['node']
 #print nodes
 nodes = restconf.get_topology(restconf.get(findTopology))['topology'][0]['node']
-
+"""
 for node in nodes:
     print node['node-id']
     tables = restconf.get('http://192.168.231.246:8080/restconf/operational/opendaylight-inventory:nodes/node/'+node['node-id'])
@@ -55,4 +55,9 @@ for node in nodes:
                 except ValueError:
                     pass
     except KeyError:
-        pass
+        pass"""
+print confUrl+'opendaylight-inventory:nodes/node/openflow:2/table/0'
+flowRules2 = restconf.get(confUrl+'opendaylight-inventory:nodes/node/openflow:2/table/0')
+flowRules3 = restconf.get(confUrl+'opendaylight-inventory:nodes/node/openflow:3/table/0')
+print flowRules2
+print flowRules3

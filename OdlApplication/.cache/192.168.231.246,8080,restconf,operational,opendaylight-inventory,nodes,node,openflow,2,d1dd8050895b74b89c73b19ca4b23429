@@ -3,7 +3,7 @@ content-location: http://192.168.231.246:8080/restconf/operational/opendaylight-
 expires: Thu, 01 Jan 1970 01:00:00 CET
 server: Apache-Coyote/1.1
 cache-control: private
-date: Sun, 27 Apr 2014 13:46:39 GMT
+date: Tue, 29 Apr 2014 02:45:28 GMT
 content-type: application/yang.data+json
 
 {
@@ -124,7 +124,7 @@ content-type: application/yang.data+json
                     }
                 },
                 {
-                    "flow-node-inventory:id": 89,
+                    "flow-node-inventory:id": 209,
                     "opendaylight-flow-table-statistics:flow-table-statistics": {
                         "opendaylight-flow-table-statistics:packets-looked-up": 0,
                         "opendaylight-flow-table-statistics:packets-matched": 0,
@@ -132,7 +132,7 @@ content-type: application/yang.data+json
                     }
                 },
                 {
-                    "flow-node-inventory:id": 209,
+                    "flow-node-inventory:id": 89,
                     "opendaylight-flow-table-statistics:flow-table-statistics": {
                         "opendaylight-flow-table-statistics:packets-looked-up": 0,
                         "opendaylight-flow-table-statistics:packets-matched": 0,
@@ -708,7 +708,7 @@ content-type: application/yang.data+json
                     }
                 },
                 {
-                    "flow-node-inventory:id": 185,
+                    "flow-node-inventory:id": 16,
                     "opendaylight-flow-table-statistics:flow-table-statistics": {
                         "opendaylight-flow-table-statistics:packets-looked-up": 0,
                         "opendaylight-flow-table-statistics:packets-matched": 0,
@@ -716,7 +716,7 @@ content-type: application/yang.data+json
                     }
                 },
                 {
-                    "flow-node-inventory:id": 16,
+                    "flow-node-inventory:id": 185,
                     "opendaylight-flow-table-statistics:flow-table-statistics": {
                         "opendaylight-flow-table-statistics:packets-looked-up": 0,
                         "opendaylight-flow-table-statistics:packets-matched": 0,
@@ -846,9 +846,9 @@ content-type: application/yang.data+json
                 {
                     "flow-node-inventory:id": 0,
                     "opendaylight-flow-table-statistics:flow-table-statistics": {
-                        "opendaylight-flow-table-statistics:packets-looked-up": 10300,
-                        "opendaylight-flow-table-statistics:packets-matched": 10262,
-                        "opendaylight-flow-table-statistics:active-flows": 9
+                        "opendaylight-flow-table-statistics:packets-looked-up": 43315478,
+                        "opendaylight-flow-table-statistics:packets-matched": 43249485,
+                        "opendaylight-flow-table-statistics:active-flows": 11
                     }
                 },
                 {
@@ -932,7 +932,7 @@ content-type: application/yang.data+json
                     }
                 },
                 {
-                    "flow-node-inventory:id": 204,
+                    "flow-node-inventory:id": 80,
                     "opendaylight-flow-table-statistics:flow-table-statistics": {
                         "opendaylight-flow-table-statistics:packets-looked-up": 0,
                         "opendaylight-flow-table-statistics:packets-matched": 0,
@@ -940,7 +940,7 @@ content-type: application/yang.data+json
                     }
                 },
                 {
-                    "flow-node-inventory:id": 80,
+                    "flow-node-inventory:id": 204,
                     "opendaylight-flow-table-statistics:flow-table-statistics": {
                         "opendaylight-flow-table-statistics:packets-looked-up": 0,
                         "opendaylight-flow-table-statistics:packets-matched": 0,
@@ -1180,7 +1180,7 @@ content-type: application/yang.data+json
                     }
                 },
                 {
-                    "flow-node-inventory:id": 122,
+                    "flow-node-inventory:id": 249,
                     "opendaylight-flow-table-statistics:flow-table-statistics": {
                         "opendaylight-flow-table-statistics:packets-looked-up": 0,
                         "opendaylight-flow-table-statistics:packets-matched": 0,
@@ -1188,7 +1188,7 @@ content-type: application/yang.data+json
                     }
                 },
                 {
-                    "flow-node-inventory:id": 249,
+                    "flow-node-inventory:id": 122,
                     "opendaylight-flow-table-statistics:flow-table-statistics": {
                         "opendaylight-flow-table-statistics:packets-looked-up": 0,
                         "opendaylight-flow-table-statistics:packets-matched": 0,
@@ -1460,7 +1460,7 @@ content-type: application/yang.data+json
                     }
                 },
                 {
-                    "flow-node-inventory:id": 221,
+                    "flow-node-inventory:id": 239,
                     "opendaylight-flow-table-statistics:flow-table-statistics": {
                         "opendaylight-flow-table-statistics:packets-looked-up": 0,
                         "opendaylight-flow-table-statistics:packets-matched": 0,
@@ -1468,7 +1468,7 @@ content-type: application/yang.data+json
                     }
                 },
                 {
-                    "flow-node-inventory:id": 239,
+                    "flow-node-inventory:id": 221,
                     "opendaylight-flow-table-statistics:flow-table-statistics": {
                         "opendaylight-flow-table-statistics:packets-looked-up": 0,
                         "opendaylight-flow-table-statistics:packets-matched": 0,
@@ -2063,7 +2063,7 @@ content-type: application/yang.data+json
             "node-connector": [
                 {
                     "flow-node-inventory:current-feature": "pause forty-gb-fd",
-                    "flow-node-inventory:hardware-address": "0E:18:3A:5E:6D:FB",
+                    "flow-node-inventory:hardware-address": "36:D5:46:06:1C:57",
                     "flow-node-inventory:peer-features": "",
                     "id": "openflow:2:2",
                     "flow-node-inventory:state": {
@@ -2080,16 +2080,16 @@ content-type: application/yang.data+json
                         "opendaylight-port-statistics:receive-crc-error": 0,
                         "opendaylight-port-statistics:receive-frame-error": 0,
                         "opendaylight-port-statistics:packets": {
-                            "opendaylight-port-statistics:transmitted": 19,
-                            "opendaylight-port-statistics:received": 19
+                            "opendaylight-port-statistics:transmitted": 6876211,
+                            "opendaylight-port-statistics:received": 1250917
                         },
                         "opendaylight-port-statistics:duration": {},
                         "opendaylight-port-statistics:receive-errors": 0,
                         "opendaylight-port-statistics:transmit-drops": 0,
                         "opendaylight-port-statistics:collision-count": 0,
                         "opendaylight-port-statistics:bytes": {
-                            "opendaylight-port-statistics:transmitted": 1197,
-                            "opendaylight-port-statistics:received": 1197
+                            "opendaylight-port-statistics:transmitted": 36019117637,
+                            "opendaylight-port-statistics:received": 82593965
                         }
                     },
                     "flow-node-inventory:supported": "",
@@ -2099,7 +2099,7 @@ content-type: application/yang.data+json
                 {
                     "flow-node-inventory:current-feature": "pause forty-gb-fd",
                     "flow-node-inventory:peer-features": "",
-                    "flow-node-inventory:hardware-address": "A6:C9:53:10:C7:2F",
+                    "flow-node-inventory:hardware-address": "92:45:B4:C6:90:F1",
                     "flow-node-inventory:state": {
                         "flow-node-inventory:link-down": false,
                         "flow-node-inventory:blocked": false,
@@ -2107,33 +2107,33 @@ content-type: application/yang.data+json
                     },
                     "id": "openflow:2:1",
                     "flow-node-inventory:configuration": "",
-                    "flow-node-inventory:port-number": 1,
                     "opendaylight-port-statistics:flow-capable-node-connector-statistics": {
                         "opendaylight-port-statistics:transmit-errors": 0,
                         "opendaylight-port-statistics:receive-over-run-error": 0,
-                        "opendaylight-port-statistics:receive-drops": 0,
+                        "opendaylight-port-statistics:receive-drops": 1,
                         "opendaylight-port-statistics:receive-crc-error": 0,
                         "opendaylight-port-statistics:receive-frame-error": 0,
                         "opendaylight-port-statistics:packets": {
-                            "opendaylight-port-statistics:transmitted": 19,
-                            "opendaylight-port-statistics:received": 19
+                            "opendaylight-port-statistics:transmitted": 1250917,
+                            "opendaylight-port-statistics:received": 6917362
                         },
                         "opendaylight-port-statistics:duration": {},
                         "opendaylight-port-statistics:receive-errors": 0,
                         "opendaylight-port-statistics:transmit-drops": 0,
                         "opendaylight-port-statistics:collision-count": 0,
                         "opendaylight-port-statistics:bytes": {
-                            "opendaylight-port-statistics:transmitted": 1197,
-                            "opendaylight-port-statistics:received": 1197
+                            "opendaylight-port-statistics:transmitted": 82593965,
+                            "opendaylight-port-statistics:received": 36079364422
                         }
                     },
+                    "flow-node-inventory:port-number": 1,
                     "flow-node-inventory:supported": "",
                     "flow-node-inventory:advertised-features": "",
                     "flow-node-inventory:name": "s2-eth1"
                 },
                 {
                     "flow-node-inventory:current-feature": "",
-                    "flow-node-inventory:hardware-address": "BA:9A:D6:49:C7:40",
+                    "flow-node-inventory:hardware-address": "FA:38:FC:FA:E3:49",
                     "flow-node-inventory:peer-features": "",
                     "id": "openflow:2:65534",
                     "flow-node-inventory:state": {
@@ -2150,7 +2150,7 @@ content-type: application/yang.data+json
                         "opendaylight-port-statistics:receive-crc-error": 0,
                         "opendaylight-port-statistics:receive-frame-error": 0,
                         "opendaylight-port-statistics:packets": {
-                            "opendaylight-port-statistics:transmitted": 20,
+                            "opendaylight-port-statistics:transmitted": 9084,
                             "opendaylight-port-statistics:received": 0
                         },
                         "opendaylight-port-statistics:duration": {},
@@ -2158,7 +2158,7 @@ content-type: application/yang.data+json
                         "opendaylight-port-statistics:transmit-drops": 0,
                         "opendaylight-port-statistics:collision-count": 0,
                         "opendaylight-port-statistics:bytes": {
-                            "opendaylight-port-statistics:transmitted": 1372,
+                            "opendaylight-port-statistics:transmitted": 635852,
                             "opendaylight-port-statistics:received": 0
                         }
                     },

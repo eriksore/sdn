@@ -1,0 +1,109 @@
+status: 200
+content-location: http://192.168.231.250:8080/restconf/operational/opendaylight-inventory:nodes/node/openflow:18
+expires: Wed, 31 Dec 1969 16:00:00 PST
+server: Apache-Coyote/1.1
+cache-control: private
+date: Tue, 10 Jun 2014 03:31:54 GMT
+content-type: application/yang.data+json
+
+{
+    "node": [
+        {
+            "opendaylight-meter-statistics:meter-features": {
+                "opendaylight-meter-statistics:max_bands": 0,
+                "opendaylight-meter-statistics:max_color": 0,
+                "opendaylight-meter-statistics:max_meter": 0
+            },
+            "flow-node-inventory:hardware": "Open vSwitch",
+            "flow-node-inventory:serial-number": "None",
+            "flow-node-inventory:description": "None",
+            "flow-node-inventory:software": "2.0.0",
+            "flow-node-inventory:manufacturer": "Nicira, Inc.",
+            "id": "openflow:18",
+            "flow-node-inventory:switch-features": {
+                "flow-node-inventory:capabilities": [
+                    "flow-node-inventory:flow-feature-capability-flow-stats",
+                    "flow-node-inventory:flow-feature-capability-port-stats",
+                    "flow-node-inventory:flow-feature-capability-queue-stats",
+                    "flow-node-inventory:flow-feature-capability-table-stats"
+                ],
+                "flow-node-inventory:max_buffers": 256,
+                "flow-node-inventory:max_tables": 254
+            },
+            "node-connector": [
+                {
+                    "flow-node-inventory:peer-features": "",
+                    "flow-node-inventory:maximum-speed": 0,
+                    "id": "openflow:18:2",
+                    "flow-node-inventory:state": {
+                        "flow-node-inventory:link-down": false,
+                        "flow-node-inventory:blocked": false,
+                        "flow-node-inventory:live": false
+                    },
+                    "flow-node-inventory:port-number": 2,
+                    "flow-node-inventory:supported": "",
+                    "flow-node-inventory:advertised-features": "",
+                    "flow-node-inventory:name": "s18-eth2",
+                    "flow-node-inventory:current-feature": "pause forty-gb-fd",
+                    "flow-node-inventory:current-speed": 10000000,
+                    "flow-node-inventory:hardware-address": "32:2B:05:BC:E7:B7",
+                    "flow-node-inventory:configuration": ""
+                },
+                {
+                    "id": "openflow:18:4294967294",
+                    "flow-node-inventory:advertised-features": "",
+                    "flow-node-inventory:configuration": "",
+                    "flow-node-inventory:current-feature": "",
+                    "flow-node-inventory:current-speed": 0,
+                    "flow-node-inventory:hardware-address": "12:C9:64:8E:4F:4B",
+                    "flow-node-inventory:maximum-speed": 0,
+                    "flow-node-inventory:name": "s18",
+                    "flow-node-inventory:peer-features": "",
+                    "flow-node-inventory:port-number": 4294967294,
+                    "flow-node-inventory:state": {
+                        "flow-node-inventory:blocked": false,
+                        "flow-node-inventory:link-down": false,
+                        "flow-node-inventory:live": false
+                    },
+                    "flow-node-inventory:supported": ""
+                },
+                {
+                    "id": "openflow:18:1",
+                    "flow-node-inventory:advertised-features": "",
+                    "flow-node-inventory:configuration": "",
+                    "flow-node-inventory:current-feature": "pause forty-gb-fd",
+                    "flow-node-inventory:current-speed": 10000000,
+                    "flow-node-inventory:hardware-address": "46:44:D4:88:A5:2E",
+                    "flow-node-inventory:maximum-speed": 0,
+                    "flow-node-inventory:name": "s18-eth1",
+                    "flow-node-inventory:peer-features": "",
+                    "flow-node-inventory:port-number": 1,
+                    "flow-node-inventory:state": {
+                        "flow-node-inventory:blocked": false,
+                        "flow-node-inventory:link-down": false,
+                        "flow-node-inventory:live": false
+                    },
+                    "flow-node-inventory:supported": ""
+                },
+                {
+                    "id": "openflow:18:3",
+                    "flow-node-inventory:advertised-features": "",
+                    "flow-node-inventory:configuration": "",
+                    "flow-node-inventory:current-feature": "pause forty-gb-fd",
+                    "flow-node-inventory:current-speed": 10000000,
+                    "flow-node-inventory:hardware-address": "2A:1E:B1:FB:AB:02",
+                    "flow-node-inventory:maximum-speed": 0,
+                    "flow-node-inventory:name": "s18-eth3",
+                    "flow-node-inventory:peer-features": "",
+                    "flow-node-inventory:port-number": 3,
+                    "flow-node-inventory:state": {
+                        "flow-node-inventory:blocked": false,
+                        "flow-node-inventory:link-down": false,
+                        "flow-node-inventory:live": false
+                    },
+                    "flow-node-inventory:supported": ""
+                }
+            ]
+        }
+    ]
+}

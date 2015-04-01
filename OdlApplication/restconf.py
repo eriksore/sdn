@@ -3,9 +3,9 @@ import json
 import httplib2
 
 #Base URLs for Config and operational
-baseUrl = 'http://192.168.231.246:8080'
-confUrl = baseUrl + '/restconf/config/'
-operUrl = baseUrl + '/restconf/operational/'
+baseUrl = 'http://192.168.231.255:8080'
+confUrl = baseUrl + '/restconf/config'
+operUrl = baseUrl + '/restconf/operational'
 
 #"Old" REST APIs that still are used
 sdSalUrl = baseUrl + '/controller/nb/v2/'
@@ -20,7 +20,7 @@ findTopology = operUrl + '/network-topology:network-topology/topology/flow:1/'
 h = httplib2.Http(".cache")
 h.add_credentials('admin', 'admin')
 
-#Functions for  
+#GET function. Retrieve information  
 def get(url):
     resp, xml = h.request(
         url,
@@ -28,6 +28,7 @@ def get(url):
         headers = {'Content-Type' : 'application/xml'}
         )
     return xml
+#Put function. 
 def put(url, body):
     resp, content = h.request(
         url, 
@@ -36,19 +37,20 @@ def put(url, body):
         headers = {'Content-Type' : 'application/xml', 'Accept':'application/xml'}
         )
     return resp, content
+#DELETE function
 def delete(url):
     resp, content = h.request(
         url,
         method = "DELETE"
         )
     return resp
-    
+#Find active hosts    
 def get_active_hosts():
     resp, content = h.request(sdSalUrl + 'hosttracker/default/hosts/active/', "GET")
     hostConfig = json.loads(content)
     hosts = hostConfig['hostConfig']
     return hosts
-
+#Find topology
 def get_topology(xml):
     topology = json.loads(xml)
     nodes = topology['topology'][0]['node']

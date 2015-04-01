@@ -1,11 +1,11 @@
 status: 200
 content-location: http://192.168.231.246:8080/controller/nb/v2/hosttracker/default/hosts/active/
-set-cookie: JSESSIONIDSSO=F5E2B83AA41E007FF1759FABCCE602F7;
- Path=/, JSESSIONID=ED8D1FBFEDEFB2312399BFC6AB28725D; Path=/
+set-cookie: JSESSIONIDSSO=2022144268FC81CB500BDABC6331FAD3;
+ Path=/, JSESSIONID=2ED0246A678E84B01B155190FEB84942; Path=/
 expires: Thu, 01 Jan 1970 01:00:00 CET
 server: Apache-Coyote/1.1
 cache-control: private
-date: Sun, 27 Apr 2014 13:46:02 GMT
+date: Tue, 29 Apr 2014 02:41:30 GMT
 content-type: application/json
 
-{"hostConfig":[{"dataLayerAddress":"00:00:00:00:00:02","nodeType":"MD_SAL","nodeId":"openflow:5","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:5:3","vlan":"0","staticHost":false,"networkAddress":"10.0.0.2"},{"dataLayerAddress":"00:00:00:00:00:01","nodeType":"MD_SAL","nodeId":"openflow:1","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:1:3","vlan":"0","staticHost":false,"networkAddress":"10.0.0.1"}]}
+{"hostConfig":[{"dataLayerAddress":"00:00:00:00:00:01","nodeType":"MD_SAL","nodeId":"openflow:1","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:1:3","vlan":"0","staticHost":false,"networkAddress":"10.0.0.1"},{"dataLayerAddress":"00:00:00:00:00:02","nodeType":"MD_SAL","nodeId":"openflow:5","nodeConnectorType":"MD_SAL","nodeConnectorId":"openflow:5:3","vlan":"0","staticHost":false,"networkAddress":"10.0.0.2"}]}
